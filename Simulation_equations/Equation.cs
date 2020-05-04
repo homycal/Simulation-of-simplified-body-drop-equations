@@ -95,28 +95,28 @@ namespace Model
             else return s2;
         }
 
-        public float[] getPosition(float time)
+        public Point getPosition(float time)
         {
-            return new float[] { speedX * time, (float)(-0.5*g*time*time)+speedZ*time};
+            return new Point( speedX * time, (float)(-0.5*g*time*time)+speedZ*time);
         }
 
-        public float[] getSpeed(float time)
+        public Point getSpeed(float time)
         {
-            return new float[] { speedX, -g * time + speedZ };
+            return new Point ( speedX, -g * time + speedZ );
         }
 
-        public float[] getAcceleration()
+        public Point getAcceleration()
         {
-            return new float[] { 0, -g };
+            return new Point ( 0, -g );
         }
 
-        public float[][] getPoints(float precision)
+        public LinkedList<Point> getPoints(float precision)
         {
-            float[][] points = new float[][] { };
+            LinkedList<Point> points = new LinkedList<Point>();
             float max = (float)Math.Ceiling(getZeroHeight());
             for(float i=0; i<max; i += precision)
             {
-                //points
+                points.AddLast(new Point(i, getHeight(i)));
             }
             return points;
         }
