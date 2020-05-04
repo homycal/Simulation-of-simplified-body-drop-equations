@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Model
+using Model;
 
 namespace View
 {
@@ -37,20 +37,39 @@ namespace View
 
             Equation equation = new Equation(textSpeed, textAngle, textGravity, textHeight);
 
+            plotEquation(equation);
 
-            Line l = new Line();
-            l.X1 = 00;
-            l.X2 = 100;
-            l.Y1 = 0;
-            l.Y2 = 100;
+        }
 
+        private void plotEquation(Equation equation)
+        {
+            canvasMainGraph.Children.Clear();
             SolidColorBrush redBrush = new SolidColorBrush();
             redBrush.Color = Colors.Red;
+            LinkedList<Model.Point> points = equation.getPoints(1);
+            Model.Point latest = null;
+            foreach(Model.Point point in points)
+            {
+                if(latest != null)
+                {
+                    drawLine(latest, point, redBrush);
+                }
+                latest = point;
+            }
+        }
 
+        private void drawLine(Model.Point p1, Model.Point p2, SolidColorBrush brush)
+        {
+            double invert = canvasMainGraph.RenderSize.Height;
+            Line l = new Line();
+            l.X1 = p1.X;
+            l.X2 = p2.X;
+            l.Y1 = invert - p1.Z;
+            l.Y2 = invert - p2.Z;
             l.StrokeThickness = 1;
-            l.Stroke = redBrush;
+            l.Stroke = brush;
 
-            this.CanvasMainGraph.Children.Add(l);
+            canvasMainGraph.Children.Add(l);
         }
     }
 }

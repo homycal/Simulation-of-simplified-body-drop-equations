@@ -7,17 +7,17 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TextBox x:Name="TextBoxSpeed" HorizontalAlignment="Left" Height="17" Margin="110,292,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="TextBoxAngle" HorizontalAlignment="Left" Margin="110,314,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="TextBoxHeight" HorizontalAlignment="Left" Margin="110,337,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <TextBox x:Name="TextBoxGravity" HorizontalAlignment="Left" Margin="110,360,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="TextBoxSpeed" HorizontalAlignment="Left" Height="17" Margin="110,292,0,0" Text="0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="TextBoxAngle" HorizontalAlignment="Left" Margin="110,314,0,0" Text="0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="TextBoxHeight" HorizontalAlignment="Left" Margin="110,337,0,0" Text="0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="TextBoxGravity" HorizontalAlignment="Left" Margin="110,360,0,0" Text="0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <TextBlock HorizontalAlignment="Left" Height="17" Margin="27,292,0,0" Text="Initial speed" TextWrapping="Wrap" VerticalAlignment="Top" Width="78"/>
-        <TextBox x:Name="TextBoxWeight" HorizontalAlignment="Left" Margin="110,383,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="TextBoxWeight" HorizontalAlignment="Left" Margin="110,383,0,0" Text="0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <TextBlock HorizontalAlignment="Left" Margin="27,314,0,0" Text="Angle" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="27,339,0,0" Text="Height" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="27,362,0,0" Text="Gravity" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="27,385,0,0" Text="Weight" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <Canvas x:Name="CanvasMainGraph" Margin="155,33,155,179" Background="#FFC9F2F3">
+        <Canvas x:Name="canvasMainGraph" Margin="155,33,155,179" Background="#FFC9F2F3">
         </Canvas>
         <Button x:Name="ButtonCalcul" Content="Calculer" HorizontalAlignment="Left" Margin="483,347,0,0" VerticalAlignment="Top" Width="100" Click="ButtonCalcul_Click_1" />
 
