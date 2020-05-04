@@ -105,5 +105,14 @@ namespace Simulation_equations
             return new float[] { speedX * time, (float)(-0.5*g*time*time)+speedZ*time};
         }
 
+        public float[] getSpeed(float time)
+        {
+            return new float[] { speedX, -g * time + speedZ };
+        }
+
+        public float[] getAcceleration()
+        {
+            return new float[] { 0, -g };
+        }
     }
 }
