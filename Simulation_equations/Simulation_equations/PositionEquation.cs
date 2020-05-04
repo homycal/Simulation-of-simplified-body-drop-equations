@@ -37,6 +37,18 @@ namespace Simulation_equations
             get { return speedInit; }
             set { speedInit = value; }
         }
+        private float speedX;
+        public float SpeedX
+        {
+            get { return speedX; }
+            set { speedX = value; }
+        }
+        private float speedZ;
+        public float SpeedZ
+        {
+            get { return speedZ; }
+            set { speedZ = value; }
+        }
 
         private float g;
         public float G
@@ -57,35 +69,41 @@ namespace Simulation_equations
             this.speedInit = speedInit;
             this.angle = angle;
             this.g = g;
-            double speedX = (speedInit * Math.Cos(angle*Math.PI/180));
-            double speedZ = (speedInit * Math.Sin(angle*Math.PI/180)) ;
+            this.speedX = (float)(speedInit * Math.Cos(angle * Math.PI / 180));
+            this.speedZ = (float)(speedInit * Math.Sin(angle * Math.PI / 180));
             this.a = (float)(-0.5 * (g / Math.Pow((double)speedX, 2)));
-            this.b =(float) (speedZ/speedX);
+            this.b = (float)(speedZ / speedX);
             this.c = h;
         }
 
         public override string ToString()
         {
-            return "-0.5 * ("+g+"/"+speedInit+"²) * x² * [1+tan²("+angle+")] + x * tan("+angle+")";
+            return "-0.5 * (" + g + "/" + speedInit + "²) * x² * [1+tan²(" + angle + ")] + x * tan(" + angle + ")";
         }
 
         public Equation getDerivatedEquation()
         {
-            throw new NotImplementedException();
+            return new SpeedEquation();
         }
 
         public float getHeight(float x)
         {
-            return (float)(this.a * Math.Pow(x, 2) + this.b * x + this.c);
+            return (float)(a * Math.Pow(x, 2) + b * x + c);
         }
 
         public float getZeroHeight()
         {
             float delta = b * b - 4 * a * c;
-            float s1 =(float) (-b - Math.Sqrt(delta)) / (2*a);
-            float s2 =(float) (-b + Math.Sqrt(delta)) / (2*a);
+            float s1 = (float)(-b - Math.Sqrt(delta)) / (2 * a);
+            float s2 = (float)(-b + Math.Sqrt(delta)) / (2 * a);
             if (s1 > s2) return s1;
             else return s2;
         }
+
+        public float[] getPosition(float time)
+        {
+            return new float[] { speedX * time, (float)(-0.5*g*time*time)+speedZ*time};
+        }
+
     }
 }
