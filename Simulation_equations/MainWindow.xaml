@@ -16,10 +16,10 @@
             <ColumnDefinition Width="138*"/>
             <ColumnDefinition Width="11*"/>
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="TextBoxSpeed" HorizontalAlignment="Left" Height="17" Margin="93,18,0,0" Text="0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1" Grid.Row="1"/>
-        <TextBox x:Name="TextBoxAngle" HorizontalAlignment="Left" Margin="93,40,0,0" Text="0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1" Grid.Row="1" Height="18"/>
+        <TextBox x:Name="TextBoxSpeed" HorizontalAlignment="Left" Height="17" Margin="93,18,0,0" Text="15" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1" Grid.Row="1"/>
+        <TextBox x:Name="TextBoxAngle" HorizontalAlignment="Left" Margin="93,40,0,0" Text="30" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1" Grid.Row="1" Height="18"/>
         <TextBox x:Name="TextBoxHeight" HorizontalAlignment="Left" Margin="93,61,0,0" Text="0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1" Grid.Row="1" Height="18"/>
-        <TextBox x:Name="TextBoxGravity" HorizontalAlignment="Left" Margin="93,82,0,0" Text="0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1" Grid.Row="1" Height="18"/>
+        <TextBox x:Name="TextBoxGravity" HorizontalAlignment="Left" Margin="93,82,0,0" Text="9.80" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1" Grid.Row="1" Height="18"/>
         <TextBlock HorizontalAlignment="Left" Height="17" Margin="10,18,0,0" Text="Initial speed" TextWrapping="Wrap" VerticalAlignment="Top" Width="78" Grid.Column="1" Grid.Row="1"/>
         <TextBox x:Name="TextBoxWeight" HorizontalAlignment="Left" Margin="93,105,0,0" Text="0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1" Grid.Row="1" Height="18"/>
         <TextBlock HorizontalAlignment="Left" Margin="10,40,0,0" Text="Angle" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" Height="16" Width="31"/>
