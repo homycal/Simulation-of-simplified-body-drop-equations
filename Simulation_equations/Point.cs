@@ -18,5 +18,11 @@ namespace Model
             get { return z; }
             set { z = value; }
         }
+
+        public Point(float x, float z)
+        {
+            this.x = x;
+            this.z = z;
+        }
     }
 }
