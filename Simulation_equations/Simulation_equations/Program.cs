@@ -7,15 +7,17 @@ namespace Simulation_equations
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            Console.WriteLine("a : ");
+            Console.WriteLine("Initial speed : ");
+            float s = float.Parse(Console.ReadLine());
+            Console.WriteLine("angle : ");
             float a = float.Parse(Console.ReadLine());
-            Console.WriteLine("b : ");
-            float b = float.Parse(Console.ReadLine());
-            Console.WriteLine("c : ");
-            float c = float.Parse(Console.ReadLine());
+            Console.WriteLine("gravity : ");
+            float g = float.Parse(Console.ReadLine());
 
-            Equation equation = new PositionEquation(a, b, c);
+            PositionEquation equation = new PositionEquation(s, a, g, 0);
+
             Console.WriteLine(equation);
+            Console.WriteLine(equation.getHeight(2));
         }
     }
 }

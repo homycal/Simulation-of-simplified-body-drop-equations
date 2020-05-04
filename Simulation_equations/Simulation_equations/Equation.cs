@@ -6,6 +6,6 @@ namespace Simulation_equations
 {
     interface Equation
     {
-        
+        public Equation getDerivatedEquation();
     }
 }

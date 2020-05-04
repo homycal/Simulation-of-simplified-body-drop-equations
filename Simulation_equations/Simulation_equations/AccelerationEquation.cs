@@ -6,5 +6,9 @@ namespace Simulation_equations
 {
     class AccelerationEquation : Equation
     {
+        public Equation getDerivatedEquation()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

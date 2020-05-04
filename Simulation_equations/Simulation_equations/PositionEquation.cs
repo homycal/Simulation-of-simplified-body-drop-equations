@@ -24,17 +24,59 @@ namespace Simulation_equations
             get { return c; }
             set { c = value; }
         }
-
-        public PositionEquation(float a, float b, float c)
+        private float angle;
+        public float Angle
         {
-            this.a = a;
-            this.b = b;
-            this.c = c;
+            get { return angle; }
+            set { angle = value; }
+        }
+
+        private float speedInit;
+        public float SpeedInit
+        {
+            get { return speedInit; }
+            set { speedInit = value; }
+        }
+
+        private float g;
+        public float G
+        {
+            get { return g; }
+            set { g = value; }
+        }
+
+        private float h;
+        public float H
+        {
+            get { return H; }
+            set { H = value; }
+        }
+
+        public PositionEquation(float speedInit, float angle, float g, float h)
+        {
+            this.speedInit = speedInit;
+            this.angle = angle;
+            this.g = g;
+            float speedX = (float)(speedInit * Math.Cos(angle));
+            float speedZ = (float)(speedInit * Math.Sin(angle));
+            this.a = (float)(-0.5 * (g / Math.Pow((double)speedX, 2)));
+            this.b = speedZ/speedX;
+            this.c = h;
         }
 
         public override string ToString()
         {
-            return $"{a} * x² + {b} * x + {c}";
+            return "-0.5 * ("+g+"/"+speedInit+"²) * x² * [1+tan²("+angle+")] + x * tan("+angle+")";
+        }
+
+        public Equation getDerivatedEquation()
+        {
+            throw new NotImplementedException();
+        }
+
+        public float getHeight(float x)
+        {
+            return (float)(this.a * Math.Pow(x, 2) + this.b * x + this.c);
         }
     }
 }
