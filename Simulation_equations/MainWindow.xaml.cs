@@ -46,26 +46,31 @@ namespace View
             canvasMainGraph.Children.Clear();
             SolidColorBrush redBrush = new SolidColorBrush();
             redBrush.Color = Colors.Red;
-            LinkedList<Model.Point> points = equation.getPoints(1);
+            //float precision = equation.getZeroHeight()
+            float precision = 1;
+            LinkedList<Model.Point> points = equation.getPoints(precision);
+            float scaleX = (float)canvasMainGraph.RenderSize.Width / points.Count;
+            float scaleZ = (float)canvasMainGraph.RenderSize.Height / points.Count;
             Model.Point latest = null;
             foreach(Model.Point point in points)
             {
                 if(latest != null)
                 {
-                    drawLine(latest, point, redBrush);
+                    drawLine(latest, point, redBrush, scaleX, scaleZ);
                 }
                 latest = point;
             }
+            drawLine(latest, new Model.Point(equation.getZeroHeight(), 0), redBrush, scaleX, scaleZ);
         }
 
-        private void drawLine(Model.Point p1, Model.Point p2, SolidColorBrush brush)
+        private void drawLine(Model.Point p1, Model.Point p2, SolidColorBrush brush, float scaleX, float scaleZ)
         {
             double invert = canvasMainGraph.RenderSize.Height;
             Line l = new Line();
-            l.X1 = p1.X;
-            l.X2 = p2.X;
-            l.Y1 = invert - p1.Z;
-            l.Y2 = invert - p2.Z;
+            l.X1 = scaleX * p1.X;
+            l.X2 = scaleX * p2.X;
+            l.Y1 = invert - scaleZ * p1.Z;
+            l.Y2 = invert - scaleZ * p2.Z;
             l.StrokeThickness = 1;
             l.Stroke = brush;
 
