@@ -25,7 +25,7 @@ namespace Simulation_equations
             set { c = value; }
         }
 
-        public Equation(float a, float b, float c)
+        public PositionEquation(float a, float b, float c)
         {
             this.a = a;
             this.b = b;
