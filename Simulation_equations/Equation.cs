@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Simulation_equations
+namespace Model
 {
-    class PositionEquation : Equation
+    class Equation
     {
         private float a;
         public float A
@@ -64,7 +64,7 @@ namespace Simulation_equations
             set { H = value; }
         }
 
-        public PositionEquation(float speedInit, float angle, float g, float h)
+        public Equation(float speedInit, float angle, float g, float h)
         {
             this.speedInit = speedInit;
             this.angle = angle;
@@ -79,11 +79,6 @@ namespace Simulation_equations
         public override string ToString()
         {
             return "-0.5 * (" + g + "/" + speedInit + "²) * x² * [1+tan²(" + angle + ")] + x * tan(" + angle + ")";
-        }
-
-        public Equation getDerivatedEquation()
-        {
-            return new SpeedEquation();
         }
 
         public float getHeight(float x)
