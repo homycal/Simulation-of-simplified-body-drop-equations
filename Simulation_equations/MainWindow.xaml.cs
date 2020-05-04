@@ -22,6 +22,7 @@ namespace View
     public partial class MainWindow : Window
     {
         private const float CANVAS_PADDING = 20;
+        private const float HALF_GRADUATION = 5;
         public MainWindow()
         {
             InitializeComponent();
@@ -45,14 +46,14 @@ namespace View
         private void plotEquation(Equation equation)
         {
             canvasMainGraph.Children.Clear();
-            drawAxes(canvasMainGraph);
             SolidColorBrush redBrush = new SolidColorBrush();
             redBrush.Color = Colors.Red;
             //float precision = equation.getZeroHeight()
             float precision = 1;
             LinkedList<Model.Point> points = equation.getPoints(precision);
-            float scaleX = (float)(canvasMainGraph.RenderSize.Width - CANVAS_PADDING)/ points.Count;
-            float scaleZ = (float)(canvasMainGraph.RenderSize.Height - CANVAS_PADDING) / points.Count;
+            float scaleX = (float)(canvasMainGraph.ActualWidth - CANVAS_PADDING)/ points.Count;
+            float scaleZ = (float)(canvasMainGraph.ActualHeight - CANVAS_PADDING) / points.Count;
+            drawAxes(canvasMainGraph, scaleX, scaleZ);
             Model.Point latest = null;
             foreach(Model.Point point in points)
             {
@@ -67,7 +68,7 @@ namespace View
 
         private void drawLine(Model.Point p1, Model.Point p2, SolidColorBrush brush, float scaleX, float scaleZ)
         {
-            double invert = canvasMainGraph.RenderSize.Height;
+            double invert = canvasMainGraph.ActualHeight;
             Line l = new Line();
             l.X1 = (scaleX * p1.X)+CANVAS_PADDING;
             l.X2 = (scaleX * p2.X)+CANVAS_PADDING;
@@ -79,31 +80,56 @@ namespace View
             canvasMainGraph.Children.Add(l);
         }
 
-        private void drawAxes(Canvas canvas)
+        private void drawAxes(Canvas canvas, float scaleX, float scaleZ)
         {
             SolidColorBrush blackBrush = new SolidColorBrush();
             blackBrush.Color = Colors.Black;
 
-
             //X-Axis
             Line xAxis = new Line();
-            xAxis.X1 = CANVAS_PADDING;
-            xAxis.X2 = CANVAS_PADDING;
-            xAxis.Y1 = 0;
-            xAxis.Y2 = canvas.RenderSize.Height;
+            xAxis.X1 = 0;
+            xAxis.X2 = canvas.ActualWidth;
+            xAxis.Y1 = canvas.ActualHeight - CANVAS_PADDING;
+            xAxis.Y2 = canvas.ActualHeight - CANVAS_PADDING;
             xAxis.StrokeThickness = 1;
             xAxis.Stroke = blackBrush;
-            canvasMainGraph.Children.Add(xAxis);
+            canvas.Children.Add(xAxis);
 
-            //Y-Axis
-            Line yAxis = new Line();
-            yAxis.X1 = 0;
-            yAxis.X2 = canvas.RenderSize.Width;
-            yAxis.Y1 = canvas.RenderSize.Height - CANVAS_PADDING;
-            yAxis.Y2 = canvas.RenderSize.Height - CANVAS_PADDING;
-            yAxis.StrokeThickness = 1;
-            yAxis.Stroke = blackBrush;
-            canvasMainGraph.Children.Add(yAxis);
+            //Z-Axis
+            Line zAxis = new Line();
+            zAxis.X1 = CANVAS_PADDING;
+            zAxis.X2 = CANVAS_PADDING;
+            zAxis.Y1 = 0;
+            zAxis.Y2 = canvas.ActualHeight;
+            zAxis.StrokeThickness = 1;
+            zAxis.Stroke = blackBrush;
+            canvas.Children.Add(zAxis);
+
+            //X-Axis graduations
+            for (float i=CANVAS_PADDING; i < canvas.ActualWidth; i+=scaleX)
+            {
+                Line grad = new Line();
+                grad.X1 = i;
+                grad.X2 = i;
+                grad.Y1 = canvas.ActualHeight - CANVAS_PADDING - HALF_GRADUATION;
+                grad.Y2 = canvas.ActualHeight - CANVAS_PADDING + HALF_GRADUATION;
+                grad.StrokeThickness = 1;
+                grad.Stroke = blackBrush;
+                canvas.Children.Add(grad);
+            }
+
+            //Z-Axis graduations
+            for (float i = (float)canvas.ActualHeight - CANVAS_PADDING; i > 0; i -= scaleZ)
+            {
+                Line grad = new Line();
+                grad.X1 = CANVAS_PADDING - HALF_GRADUATION;
+                grad.X2 = CANVAS_PADDING + HALF_GRADUATION;
+                grad.Y1 = i;
+                grad.Y2 = i;
+                grad.StrokeThickness = 1;
+                grad.Stroke = blackBrush;
+                canvas.Children.Add(grad);
+            }
         }
     }
 }
