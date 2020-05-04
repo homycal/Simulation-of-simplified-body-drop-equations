@@ -7,6 +7,7 @@ namespace Simulation_equations
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
+            
             Console.WriteLine("Initial speed : ");
             float s = float.Parse(Console.ReadLine());
             Console.WriteLine("angle : ");
@@ -18,6 +19,7 @@ namespace Simulation_equations
 
             Console.WriteLine(equation);
             Console.WriteLine(equation.getHeight(2));
+            Console.WriteLine(equation.getZeroHeight());
         }
     }
 }

@@ -57,10 +57,10 @@ namespace Simulation_equations
             this.speedInit = speedInit;
             this.angle = angle;
             this.g = g;
-            float speedX = (float)(speedInit * Math.Cos(angle));
-            float speedZ = (float)(speedInit * Math.Sin(angle));
+            double speedX = (speedInit * Math.Cos(angle*Math.PI/180));
+            double speedZ = (speedInit * Math.Sin(angle*Math.PI/180)) ;
             this.a = (float)(-0.5 * (g / Math.Pow((double)speedX, 2)));
-            this.b = speedZ/speedX;
+            this.b =(float) (speedZ/speedX);
             this.c = h;
         }
 
@@ -77,6 +77,15 @@ namespace Simulation_equations
         public float getHeight(float x)
         {
             return (float)(this.a * Math.Pow(x, 2) + this.b * x + this.c);
+        }
+
+        public float getZeroHeight()
+        {
+            float delta = b * b - 4 * a * c;
+            float s1 =(float) (-b - Math.Sqrt(delta)) / (2*a);
+            float s2 =(float) (-b + Math.Sqrt(delta)) / (2*a);
+            if (s1 > s2) return s1;
+            else return s2;
         }
     }
 }
