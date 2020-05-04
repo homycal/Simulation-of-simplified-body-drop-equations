@@ -109,5 +109,16 @@ namespace Model
         {
             return new float[] { 0, -g };
         }
+
+        public float[][] getPoints(float precision)
+        {
+            float[][] points = new float[][] { };
+            float max = (float)Math.Ceiling(getZeroHeight());
+            for(float i=0; i<max; i += precision)
+            {
+                //points
+            }
+            return points;
+        }
     }
 }
