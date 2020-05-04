@@ -14,7 +14,7 @@ namespace Simulation_equations
             Console.WriteLine("c : ");
             float c = float.Parse(Console.ReadLine());
 
-            Equation equation = new Equation(a, b, c);
+            Equation equation = new PositionEquation(a, b, c);
             Console.WriteLine(equation);
         }
     }
