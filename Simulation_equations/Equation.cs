@@ -81,12 +81,12 @@ namespace Model
             return "-0.5 * (" + g + "/" + speedInit + "²) * x² * [1+tan²(" + angle + ")] + x * tan(" + angle + ")";
         }
 
-        public float getHeight(float x)
+        public float GetHeight(float x)
         {
             return (float)(a * Math.Pow(x, 2) + b * x + c);
         }
 
-        public Point getZeroHeight()
+        public Point GetZeroHeight()
         {
             float delta = b * b - 4 * a * c;
             float s1 = (float)(-b - Math.Sqrt(delta)) / (2 * a);
@@ -98,32 +98,32 @@ namespace Model
         public Point getMaxHeight()
         {
             float x = -b / (2 * a);
-            float z = getHeight(x);
+            float z = GetHeight(x);
             return new Point(x, z);
         }
 
-        public Point getPosition(float time)
+        public Point GetPosition(float time)
         {
             return new Point( speedX * time, (float)(-0.5*g*time*time)+speedZ*time);
         }
 
-        public Point getSpeed(float time)
+        public Point GetSpeed(float time)
         {
             return new Point ( speedX, -g * time + speedZ );
         }
 
-        public Point getAcceleration()
+        public Point GetAcceleration()
         {
             return new Point ( 0, -g );
         }
 
-        public LinkedList<Point> getPoints(float precision)
+        public LinkedList<Point> GetPoints(float precision)
         {
             LinkedList<Point> points = new LinkedList<Point>();
-            float max = (float)Math.Ceiling(getZeroHeight().X);
+            float max = (float)Math.Ceiling(GetZeroHeight().X);
             for(float i=0; i<max; i += precision)
             {
-                points.AddLast(new Point(i, getHeight(i)));
+                points.AddLast(new Point(i, GetHeight(i)));
             }
             return points;
         }

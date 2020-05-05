@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Model;
+using Controller;
 
 namespace View
 {
@@ -21,15 +22,12 @@ namespace View
     /// </summary>
     public partial class MainWindow : Window
     {
-        private const float CANVAS_PADDING = 30;
-        private const float HALF_GRADUATION = 5;
-        private const float MARGIN_SCALE = 30;
-        private const float PRECISION_FACTOR = 0.045f;
         public MainWindow()
         {
             InitializeComponent();
         }
 
+        private MainController controller = new MainController();
         private void ButtonCalcul_Click_1(object sender, RoutedEventArgs e)
         {
 
@@ -41,143 +39,14 @@ namespace View
             //TODO: Check errors if a letter is entered
             Equation equation = new Equation(textSpeed, textAngle, textGravity, textHeight);
 
-            plotEquation(equation);
+            List<Canvas> canvas = new List<Canvas>();
+            canvas.Add(CanvasMainGraph);
+            canvas.Add(CanvasSpeed);
+            canvas.Add(CanvasAcceleration);
+            canvas.Add(CanvasEnergy);
 
+            controller.PlotEquation(canvas, equation);
         }
-
-        private void plotEquation(Equation equation)
-        {
-            canvasMainGraph.Children.Clear();
-            SolidColorBrush redBrush = new SolidColorBrush();
-            redBrush.Color = Colors.Red;
-            float precision = equation.getZeroHeight().X * PRECISION_FACTOR;
-            LinkedList<Model.Point> points = equation.getPoints(precision);
-            drawOnCanvas(canvasMainGraph, points, redBrush, equation);
-
-        }
-        private void drawOnCanvas(Canvas canvas, LinkedList<Model.Point> points, SolidColorBrush brush, Equation equation)
-        {
-            float scaleX = (float)(canvas.ActualWidth - CANVAS_PADDING - MARGIN_SCALE) / equation.getZeroHeight().X;
-            float scaleZ = (float)(canvas.ActualHeight - CANVAS_PADDING - MARGIN_SCALE) / equation.getMaxHeight().Z;
-
-            drawAxes(canvas, scaleX, scaleZ);
-            Model.Point latest = null;
-            foreach (Model.Point point in points)
-            {
-                if (latest != null)
-                {
-                    drawLine(canvas, latest, point, brush, scaleX, scaleZ);
-                }
-                latest = point;
-            }
-            drawLine(canvas, latest, new Model.Point(equation.getZeroHeight().X, 0), brush, scaleX, scaleZ);
-        }
-
-        private void drawLine(Canvas canvas, Model.Point p1, Model.Point p2, SolidColorBrush brush, float scaleX, float scaleZ)
-        {
-            double invert = canvas.ActualHeight;
-            Line l = new Line();
-            l.X1 = (scaleX * p1.X)+CANVAS_PADDING;
-            l.X2 = (scaleX * p2.X)+CANVAS_PADDING;
-            l.Y1 = invert - CANVAS_PADDING - scaleZ * p1.Z;
-            l.Y2 = invert - CANVAS_PADDING - scaleZ * p2.Z;
-            l.StrokeThickness = 1;
-            l.Stroke = brush;
-
-            canvas.Children.Add(l);
-        }
-
-        private void drawAxes(Canvas canvas, float scaleX, float scaleZ)
-        {
-            SolidColorBrush blackBrush = new SolidColorBrush();
-            blackBrush.Color = Colors.Black;
-
-            //X-Axis
-            Line xAxis = new Line();
-            xAxis.X1 = 0;
-            xAxis.X2 = canvas.ActualWidth;
-            xAxis.Y1 = canvas.ActualHeight - CANVAS_PADDING;
-            xAxis.Y2 = canvas.ActualHeight - CANVAS_PADDING;
-            xAxis.StrokeThickness = 1;
-            xAxis.Stroke = blackBrush;
-            canvas.Children.Add(xAxis);
-
-            //Z-Axis
-            Line zAxis = new Line();
-            zAxis.X1 = CANVAS_PADDING;
-            zAxis.X2 = CANVAS_PADDING;
-            zAxis.Y1 = 0;
-            zAxis.Y2 = canvas.ActualHeight;
-            zAxis.StrokeThickness = 1;
-            zAxis.Stroke = blackBrush;
-            canvas.Children.Add(zAxis);
-
-            float factor = getFactor((float)Math.Floor(100 / scaleX));
-            if (factor == 0) factor = 1;
-
-            float length = 0;
-
-            //X-Axis graduations
-            for (float i=CANVAS_PADDING; i < canvas.ActualWidth; i+= factor*scaleX)
-            {
-                Line grad = new Line();
-                grad.X1 = i;
-                grad.X2 = i;
-                grad.Y1 = canvas.ActualHeight - CANVAS_PADDING - HALF_GRADUATION;
-                grad.Y2 = canvas.ActualHeight - CANVAS_PADDING + HALF_GRADUATION;
-                grad.StrokeThickness = 1;
-                grad.Stroke = blackBrush;
-                canvas.Children.Add(grad);
-                TextBlock num = new TextBlock();
-                num.Text = length.ToString();
-                num.Margin = new Thickness(i-HALF_GRADUATION, canvas.ActualHeight - CANVAS_PADDING + HALF_GRADUATION, 0, 0);
-                canvas.Children.Add(num);
-                length+=factor;
-            }
-
-            factor = getFactor((float)Math.Floor(100 / scaleZ));
-            if (factor == 0) factor = 1;
-
-            length = 0;
-            //Z-Axis graduations
-            for (float i = (float)canvas.ActualHeight - CANVAS_PADDING; i > 0; i -= factor * scaleZ)
-            {
-                Line grad = new Line();
-                grad.X1 = CANVAS_PADDING - HALF_GRADUATION;
-                grad.X2 = CANVAS_PADDING + HALF_GRADUATION;
-                grad.Y1 = i;
-                grad.Y2 = i;
-                grad.StrokeThickness = 1;
-                grad.Stroke = blackBrush;
-                canvas.Children.Add(grad);
-                TextBlock num = new TextBlock();
-                num.Text = length.ToString();
-                num.Margin = new Thickness(HALF_GRADUATION , i- 2* HALF_GRADUATION, 0, 0 );
-                canvas.Children.Add(num);
-                length += factor;
-            }
-        }
-
-        private float getFactor(float rawFactor)
-        {
-            string str = rawFactor.ToString();
-            int digits = str.Length;
-            if(digits==1)
-            {
-                return rawFactor;
-            }
-            else if (int.Parse(str[1].ToString()) < 5)
-            {
-                return (float)(int.Parse(str[0].ToString())*Math.Pow(10, digits-1));
-            }
-            else
-            {
-                return (float)((int.Parse(str[0].ToString()) + 1)*Math.Pow(10, digits-1));
-
-
-            }
-        }
-
         private void SliderSpeed_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             TextBoxSpeed.Text = SliderSpeed.Value.ToString();
