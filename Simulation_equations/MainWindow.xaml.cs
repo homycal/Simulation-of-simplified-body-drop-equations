@@ -23,6 +23,7 @@ namespace View
     {
         private const float CANVAS_PADDING = 20;
         private const float HALF_GRADUATION = 5;
+        private const float MARGIN_SCALE = 20;
         public MainWindow()
         {
             InitializeComponent();
@@ -49,10 +50,13 @@ namespace View
             SolidColorBrush redBrush = new SolidColorBrush();
             redBrush.Color = Colors.Red;
             //float precision = equation.getZeroHeight()
-            float precision = 1;
+            float precision =(float) 3;
             LinkedList<Model.Point> points = equation.getPoints(precision);
-            float scaleX = (float)(canvasMainGraph.ActualWidth - CANVAS_PADDING)/ points.Count;
-            float scaleZ = (float)(canvasMainGraph.ActualHeight - CANVAS_PADDING) / points.Count;
+            //float scaleX = (float)(canvasMainGraph.ActualWidth - CANVAS_PADDING)/ points.Count;
+            float scaleX = (float)(canvasMainGraph.ActualWidth - CANVAS_PADDING - MARGIN_SCALE)/equation.getZeroHeight().X;
+            //float scaleZ = (float)(canvasMainGraph.ActualHeight - CANVAS_PADDING) / points.Count;
+            float scaleZ = (float)(canvasMainGraph.ActualHeight - CANVAS_PADDING - MARGIN_SCALE) / equation.getMaxHeight().Z;
+
             drawAxes(canvasMainGraph, scaleX, scaleZ);
             Model.Point latest = null;
             foreach(Model.Point point in points)
@@ -63,7 +67,7 @@ namespace View
                 }
                 latest = point;
             }
-            drawLine(latest, new Model.Point(equation.getZeroHeight(), 0), redBrush, scaleX, scaleZ);
+            drawLine(latest, new Model.Point(equation.getZeroHeight().X, 0), redBrush, scaleX, scaleZ);
         }
 
         private void drawLine(Model.Point p1, Model.Point p2, SolidColorBrush brush, float scaleX, float scaleZ)
