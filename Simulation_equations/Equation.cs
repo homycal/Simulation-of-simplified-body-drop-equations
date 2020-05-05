@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Model
@@ -55,6 +56,12 @@ namespace Model
             get { return H; }
         }
 
+        private float weight;
+        public float Weight
+        {
+            get { return weight; }
+        }
+
         private Point maxHeight;
         public Point MaxHeight
         {
@@ -80,25 +87,32 @@ namespace Model
         }
 
 
-        public Equation(float speedInit, float angle, float g, float h)
+        public Equation(float speedInit, float angle, float g, float h, float weight)
         {
             this.speedInit = speedInit;
             this.angle = angle;
             this.g = g;
-            this.speedX = (float)(speedInit * Math.Cos(angle * Math.PI / 180));
-            this.speedZ = (float)(speedInit * Math.Sin(angle * Math.PI / 180));
-            this.a = (float)(-0.5 * (g / Math.Pow((double)speedX, 2)));
-            this.b = (float)(speedZ / speedX);
-            this.c = h;
+            this.weight = weight;
+
+            speedX = (float)(speedInit * Math.Cos(angle * Math.PI / 180));
+            speedZ = (float)(speedInit * Math.Sin(angle * Math.PI / 180));
+
+            a = (float)(-0.5 * (g / Math.Pow(speedX, 2)));
+            b = (speedZ / speedX);
+            c = h;
+
             float x = -b / (2 * a);
             float z = GetHeight(x);
             maxHeight = new Point(x, z);
+
             flightTime = speedZ / (-g);
+
             float delta = b * b - 4 * a * c;
             float s1 = (float)(-b - Math.Sqrt(delta)) / (2 * a);
             float s2 = (float)(-b + Math.Sqrt(delta)) / (2 * a);
             if (s1 > s2) zeroHeight = new Point(s1, 0);
             else zeroHeight = new Point(s2, 0);
+
             acceleration = new Point(0, -g);
         }
 
@@ -123,50 +137,114 @@ namespace Model
             return new Point ( speedX, -g * time + speedZ );
         }
 
-        public LinkedList<Point> GetPoints(float precision)
+        public float GetKineticEnergy(float time)
         {
-            LinkedList<Point> points = new LinkedList<Point>();
+            Point speed = GetSpeed(time);
+            return (float)(0.5 * weight * (Math.Pow(speed.X, 2) + Math.Pow(speed.Z, 2)));
+        }
+
+        public float GetPotentialEnergy(float time)
+        {
+            return weight * g * GetPosition(time).Z;
+        }
+
+        public float GetTotalEnergy(float time)
+        {
+            return GetKineticEnergy(time) + GetPotentialEnergy(time);
+        }
+
+        public List<Point> GetPoints(float precision)
+        {
+            List<Point> points = new List<Point>();
             float max = (float)Math.Ceiling(ZeroHeight.X);
             for(float i=0; i<max; i += precision)
             {
-                points.AddLast(new Point(i, GetHeight(i)));
+                points.Add(new Point(i, GetHeight(i)));
             }
             return points;
         }
 
-        public LinkedList<Point> GetPointsSpeedX(float precision)
+        public List<Point> GetPointsSpeedX(float precision)
         {
-            LinkedList<Point> points = new LinkedList<Point>();
+            List<Point> points = new List<Point>();
             float max = (float)Math.Ceiling(flightTime);
             for (float t = 0; t < max; t += precision)
             {
-                points.AddLast(new Point(t, GetSpeed(t).X));
-            }
-
-            return points;
-        }
-
-        public LinkedList<Point> GetPointsSpeedZ(float precision)
-        {
-            LinkedList<Point> points = new LinkedList<Point>();
-            float max = (float)Math.Ceiling(flightTime);
-            for (float t = 0; t < max; t += precision)
-            {
-                points.AddLast(new Point(t, GetSpeed(t).Z));
+                points.Add(new Point(t, GetSpeed(t).X));
             }
 
             return points;
         }
 
-        public LinkedList<Point> GetPointsAcceleration(float precision)
+        public List<Point> GetPointsSpeedZ(float precision)
         {
-            LinkedList<Point> points = new LinkedList<Point>();
+            List<Point> points = new List<Point>();
             float max = (float)Math.Ceiling(flightTime);
             for (float t = 0; t < max; t += precision)
             {
-                points.AddLast(new Point(t, acceleration.X));
+                points.Add(new Point(t, GetSpeed(t).Z));
             }
 
+            return points;
+        }
+
+        public List<Point> GetPointsAcceleration(float precision)
+        {
+            List<Point> points = new List<Point>();
+            float max = (float)Math.Ceiling(flightTime);
+            for (float t = 0; t < max; t += precision)
+            {
+                points.Add(new Point(t, acceleration.X));
+            }
+
+            return points;
+        }
+
+        public List<Point> GetPointsKineticEnergy(float precision)
+        {
+            List<Point> points = new List<Point>();
+            float max = (float)Math.Ceiling(flightTime);
+            for (float t = 0; t < max; t += precision)
+            {
+                points.Add(new Point(t, GetKineticEnergy(t)));
+            }
+
+            return points;
+        }
+
+        public List<Point> GetPointsPotentialEnergy(float precision)
+        {
+            List<Point> points = new List<Point>();
+            float max = (float)Math.Ceiling(flightTime);
+            for (float t = 0; t < max; t += precision)
+            {
+                points.Add(new Point(t, GetPotentialEnergy(t)));
+            }
+
+            return points;
+        }
+
+        public List<Point> GetPointsTotalEnergy(float precision)
+        {
+            List<Point> points = new List<Point>();
+            float max = (float)Math.Ceiling(flightTime);
+            for (float t = 0; t < max; t += precision)
+            {
+                points.Add(new Point(t, GetTotalEnergy(t)));
+            }
+
+            return points;
+        }
+
+        public List<Point> GetPointsTotalEnergy(float precision, List<Point> potentialEnergy, List<Point> kineticEnergy)
+        {
+            List<Point> points = new List<Point>();
+            int i = 0;
+            for(float t =0; t< flightTime; t += precision)
+            {
+                points.Add(new Point(t, potentialEnergy[i].Z + kineticEnergy[i].Z));
+                i++;
+            }
             return points;
         }
     }

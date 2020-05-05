@@ -37,7 +37,7 @@ namespace View
             float textGravity = float.Parse(TextBoxGravity.Text);
             float textWeight = float.Parse(TextBoxWeight.Text);
             //TODO: Check errors if a letter is entered
-            Equation equation = new Equation(textSpeed, textAngle, textGravity, textHeight);
+            Equation equation = new Equation(textSpeed, textAngle, textGravity, textHeight, textWeight);
 
             List<Canvas> canvas = new List<Canvas>();
             canvas.Add(CanvasMainGraph);
