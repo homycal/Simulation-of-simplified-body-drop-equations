@@ -28,6 +28,8 @@ namespace View
         }
 
         private MainController controller = new MainController();
+        private Equation equation;
+        private List<Canvas> canvas = new List<Canvas>();
         private void ButtonCalcul_Click_1(object sender, RoutedEventArgs e)
         {
 
@@ -37,9 +39,8 @@ namespace View
             float textGravity = float.Parse(TextBoxGravity.Text);
             float textWeight = float.Parse(TextBoxWeight.Text);
             //TODO: Check errors if a letter is entered
-            Equation equation = new Equation(textSpeed, textAngle, textGravity, textHeight, textWeight);
-
-            List<Canvas> canvas = new List<Canvas>();
+            equation = new Equation(textSpeed, textAngle, textGravity, textHeight, textWeight);
+             
             canvas.Add(CanvasMainGraph);
             canvas.Add(CanvasSpeed);
             canvas.Add(CanvasAcceleration);
@@ -70,6 +71,14 @@ namespace View
         private void SliderWeight_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             TextBoxWeight.Text = SliderWeight.Value.ToString();
+        }
+
+        private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if(equation != null)
+            {
+                controller.PlotEquation(canvas, equation);
+            }
         }
     }
 }

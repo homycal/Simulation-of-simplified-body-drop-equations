@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Simulation_equations"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Grid SizeChanged="Grid_SizeChanged">
         <Grid.RowDefinitions>
             <RowDefinition Height="72*"/>
             <RowDefinition Height="70*"/>
