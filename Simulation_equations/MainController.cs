@@ -32,6 +32,8 @@ namespace Controller
             redBrush.Color = Colors.Red;
             SolidColorBrush blueBrush = new SolidColorBrush();
             blueBrush.Color = Colors.Blue;
+            SolidColorBrush greenBrush = new SolidColorBrush();
+            greenBrush.Color = Colors.Green;
             float precisionDistance = equation.ZeroHeight.X * PRECISION_FACTOR;
             float precisionTime = equation.FlightTime * PRECISION_FACTOR;
             DrawOnCanvas(canvas[0], equation.GetPoints(precisionDistance), redBrush, equation, CANVAS_MAIN);
@@ -42,7 +44,10 @@ namespace Controller
             //AccelerationCanvas
             //DrawOnCanvas(canvas[2], equation.GetPointsAcceleration(precision), redBrush, equation);
             //EnergyCanvas
-            //DrawOnCanvas(canvas[3], equation.GetPointsTotalEnergy(precision), redBrush, equation);
+            DrawOnCanvas(canvas[3], equation.GetPointsTotalEnergy(precisionTime), redBrush, equation, CANVAS_ENERGY);
+            DrawOnCanvas(canvas[3], equation.GetPointsKineticEnergy(precisionTime), blueBrush, equation, CANVAS_ENERGY);
+            DrawOnCanvas(canvas[3], equation.GetPointsPotentialEnergy(precisionTime), greenBrush, equation, CANVAS_ENERGY);
+
 
 
         }
@@ -57,8 +62,13 @@ namespace Controller
             }
             else if (canvasType == CANVAS_SPEED)
             {
-                scaleX = (float)(canvas.ActualWidth - CANVAS_PADDING - MARGIN_SCALE) / equation.FlightTime;
-                scaleZ = (float)(canvas.ActualHeight - CANVAS_PADDING - MARGIN_SCALE) / equation.SpeedInit;
+                scaleX = (float)((canvas.ActualWidth - CANVAS_PADDING - MARGIN_SCALE) /equation.FlightTime);
+                scaleZ = (float)((canvas.ActualHeight - CANVAS_PADDING - MARGIN_SCALE) / equation.SpeedInit);
+            }
+            else if (canvasType == CANVAS_ENERGY)
+            {
+                scaleX = (float)((canvas.ActualWidth - CANVAS_PADDING - MARGIN_SCALE) / equation.FlightTime);
+                scaleZ = (float)(canvas.ActualHeight - CANVAS_PADDING - MARGIN_SCALE) / equation.GetKineticEnergy(0);
             }
 
 

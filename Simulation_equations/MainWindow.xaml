@@ -40,7 +40,7 @@
         <Slider x:Name="SliderAngle" Grid.ColumnSpan="2" Grid.Column="1" HorizontalAlignment="Left" Margin="93,31,0,0" Grid.Row="2" VerticalAlignment="Top" Width="120" Maximum="90" Value="30" ValueChanged="SliderAngle_ValueChanged"/>
         <Slider x:Name="SliderHeight" Grid.ColumnSpan="2" Grid.Column="1" HorizontalAlignment="Left" Margin="93,55,0,0" Grid.Row="2" VerticalAlignment="Top" Width="120" Maximum="1000" ValueChanged="SliderHeight_ValueChanged"/>
         <Slider x:Name="SliderGravity" Grid.ColumnSpan="2" Grid.Column="1" HorizontalAlignment="Left" Margin="93,75,0,0" Grid.Row="2" VerticalAlignment="Top" Width="120" Value="9.8" ValueChanged="SliderGravity_ValueChanged"/>
-        <Slider x:Name="SliderWeight" Grid.ColumnSpan="2" Grid.Column="1" HorizontalAlignment="Left" Margin="93,98,0,0" Grid.Row="2" VerticalAlignment="Top" Width="120" Maximum="100" ValueChanged="SliderWeight_ValueChanged"/>
+        <Slider x:Name="SliderWeight" Grid.ColumnSpan="2" Grid.Column="1" HorizontalAlignment="Left" Margin="93,98,0,0" Grid.Row="2" VerticalAlignment="Top" Width="120" Maximum="50" ValueChanged="SliderWeight_ValueChanged" Minimum="1"/>
 
     </Grid>
 </Window>

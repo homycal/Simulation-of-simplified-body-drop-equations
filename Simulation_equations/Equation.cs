@@ -93,6 +93,7 @@ namespace Model
             this.angle = angle;
             this.g = g;
             this.weight = weight;
+            this.h = h;
 
             speedX = (float)(speedInit * Math.Cos(angle * Math.PI / 180));
             speedZ = (float)(speedInit * Math.Sin(angle * Math.PI / 180));
@@ -105,13 +106,17 @@ namespace Model
             float z = GetHeight(x);
             maxHeight = new Point(x, z);
 
-            flightTime = (-speedZ) / (-g);
-
             float delta = b * b - 4 * a * c;
             float s1 = (float)(-b - Math.Sqrt(delta)) / (2 * a);
             float s2 = (float)(-b + Math.Sqrt(delta)) / (2 * a);
             if (s1 > s2) zeroHeight = new Point(s1, 0);
             else zeroHeight = new Point(s2, 0);
+
+            delta = (float)(speedZ * speedZ - 4 * -g * 0.5 * h);
+            s1 = (float)(-speedZ - Math.Sqrt(delta)) / (-g);
+            s2 = (float)(-speedZ + Math.Sqrt(delta)) / (-g);
+            if (s1 > s2) flightTime = s1;
+            else flightTime = s2;
 
             acceleration = new Point(0, -g);
         }
@@ -203,7 +208,7 @@ namespace Model
         public List<Point> GetPointsKineticEnergy(float precision)
         {
             List<Point> points = new List<Point>();
-            float max = (float)Math.Ceiling(flightTime);
+            float max = flightTime;
             for (float t = 0; t < max; t += precision)
             {
                 points.Add(new Point(t, GetKineticEnergy(t)));
@@ -215,7 +220,7 @@ namespace Model
         public List<Point> GetPointsPotentialEnergy(float precision)
         {
             List<Point> points = new List<Point>();
-            float max = (float)Math.Ceiling(flightTime);
+            float max = flightTime;
             for (float t = 0; t < max; t += precision)
             {
                 points.Add(new Point(t, GetPotentialEnergy(t)));
@@ -227,7 +232,7 @@ namespace Model
         public List<Point> GetPointsTotalEnergy(float precision)
         {
             List<Point> points = new List<Point>();
-            float max = (float)Math.Ceiling(flightTime);
+            float max = flightTime;
             for (float t = 0; t < max; t += precision)
             {
                 points.Add(new Point(t, GetTotalEnergy(t)));
