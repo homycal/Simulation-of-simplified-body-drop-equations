@@ -174,5 +174,30 @@ namespace View
 
             }
         }
+
+        private void SliderSpeed_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            TextBoxSpeed.Text = SliderSpeed.Value.ToString();
+        }
+
+        private void SliderAngle_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            TextBoxAngle.Text = SliderAngle.Value.ToString();
+        }
+
+        private void SliderHeight_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            TextBoxHeight.Text = SliderHeight.Value.ToString();
+        }
+
+        private void SliderGravity_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            TextBoxGravity.Text = SliderGravity.Value.ToString();
+        }
+
+        private void SliderWeight_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            TextBoxWeight.Text = SliderWeight.Value.ToString();
+        }
     }
 }

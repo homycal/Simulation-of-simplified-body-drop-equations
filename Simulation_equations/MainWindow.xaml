@@ -8,26 +8,39 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="142*"/>
+            <RowDefinition Height="72*"/>
+            <RowDefinition Height="70*"/>
             <RowDefinition Height="75*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="11*"/>
-            <ColumnDefinition Width="138*"/>
-            <ColumnDefinition Width="11*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="33*"/>
+            <ColumnDefinition Width="92*"/>
+            <ColumnDefinition Width="33*"/>
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="TextBoxSpeed" HorizontalAlignment="Left" Height="17" Margin="93,18,0,0" Text="15" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1" Grid.Row="1"/>
-        <TextBox x:Name="TextBoxAngle" HorizontalAlignment="Left" Margin="93,40,0,0" Text="30" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1" Grid.Row="1" Height="18"/>
-        <TextBox x:Name="TextBoxHeight" HorizontalAlignment="Left" Margin="93,61,0,0" Text="0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1" Grid.Row="1" Height="18"/>
-        <TextBox x:Name="TextBoxGravity" HorizontalAlignment="Left" Margin="93,82,0,0" Text="9.80" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1" Grid.Row="1" Height="18"/>
-        <TextBlock HorizontalAlignment="Left" Height="17" Margin="10,18,0,0" Text="Initial speed" TextWrapping="Wrap" VerticalAlignment="Top" Width="78" Grid.Column="1" Grid.Row="1"/>
-        <TextBox x:Name="TextBoxWeight" HorizontalAlignment="Left" Margin="93,105,0,0" Text="0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="1" Grid.Row="1" Height="18"/>
-        <TextBlock HorizontalAlignment="Left" Margin="10,40,0,0" Text="Angle" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" Height="16" Width="31"/>
-        <TextBlock HorizontalAlignment="Left" Margin="10,63,0,0" Text="Height" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" Height="16" Width="36"/>
-        <TextBlock HorizontalAlignment="Left" Margin="11,83,0,0" Text="Gravity" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" Height="16" Width="37"/>
-        <TextBlock HorizontalAlignment="Left" Margin="11,107,0,0" Text="Weight" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" Height="16" Width="38"/>
-        <Button x:Name="ButtonCalcul" Content="Calculer" HorizontalAlignment="Left" Margin="430,63,0,0" VerticalAlignment="Top" Width="100" Click="ButtonCalcul_Click_1" Grid.Column="1" Grid.Row="1" Height="20" />
-        <Canvas x:Name="canvasMainGraph" Margin="150,10,150,10" Background="#FFC9F2F3" Grid.Column="1"/>
+        <TextBox x:Name="TextBoxSpeed" HorizontalAlignment="Left" Height="17" Margin="53,9,0,0" Text="15" TextWrapping="Wrap" VerticalAlignment="Top" Width="37" Grid.Column="2" Grid.Row="2"/>
+        <TextBox x:Name="TextBoxAngle" HorizontalAlignment="Left" Margin="53,33,0,0" Text="30" TextWrapping="Wrap" VerticalAlignment="Top" Width="37" Grid.Column="2" Grid.Row="2" Height="18"/>
+        <TextBox x:Name="TextBoxHeight" HorizontalAlignment="Left" Margin="53,54,0,0" Text="0" TextWrapping="Wrap" VerticalAlignment="Top" Width="37" Grid.Column="2" Grid.Row="2" Height="18"/>
+        <TextBox x:Name="TextBoxGravity" HorizontalAlignment="Left" Margin="53,75,0,0" Text="9.80" TextWrapping="Wrap" VerticalAlignment="Top" Width="37" Grid.Column="2" Grid.Row="2" Height="18"/>
+        <TextBlock HorizontalAlignment="Left" Height="17" Margin="10,9,0,0" Text="Initial speed" TextWrapping="Wrap" VerticalAlignment="Top" Width="78" Grid.Column="1" Grid.Row="2"/>
+        <TextBox x:Name="TextBoxWeight" HorizontalAlignment="Left" Margin="53,98,0,0" Text="0" TextWrapping="Wrap" VerticalAlignment="Top" Width="37" Grid.Column="2" Grid.Row="2" Height="18"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,31,0,0" Text="Angle" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1" Grid.Row="2" Height="16" Width="31"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10,54,0,0" Text="Height" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1" Grid.Row="2" Height="16" Width="36"/>
+        <TextBlock HorizontalAlignment="Left" Margin="11,74,0,0" Text="Gravity" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1" Grid.Row="2" Height="16" Width="49"/>
+        <TextBlock HorizontalAlignment="Left" Margin="11,98,0,0" Text="Weight" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1" Grid.Row="2" Height="16" Width="38"/>
+        <Button x:Name="ButtonCalcul" Content="Calculer" HorizontalAlignment="Left" Margin="270,63,0,0" VerticalAlignment="Top" Width="100" Click="ButtonCalcul_Click_1" Grid.Column="2" Grid.Row="2" Height="20" />
+        <Canvas x:Name="canvasMainGraph" Margin="10,10,10,10" Background="#FFC9F2F3" Grid.Column="2" Grid.RowSpan="2">
+            <Canvas Height="264" Width="350"/>
+        </Canvas>
+        <Canvas Grid.Column="3" Background="#FFF69999" Margin="0,10,0,5"/>
+        <Canvas Grid.Column="1" Background="#FF78F18B" Margin="0,10,0,5"/>
+        <Canvas Grid.Column="1" Background="#FF78F18B" Margin="0,5,0,10" Grid.Row="1"/>
+        <Slider x:Name="SliderSpeed" Grid.ColumnSpan="2" Grid.Column="1" HorizontalAlignment="Left" Margin="93,10,0,0" Grid.Row="2" VerticalAlignment="Top" Width="120" AutoToolTipPlacement="None" Maximum="300" Value="15" ValueChanged="SliderSpeed_ValueChanged"/>
+        <Slider x:Name="SliderAngle" Grid.ColumnSpan="2" Grid.Column="1" HorizontalAlignment="Left" Margin="93,31,0,0" Grid.Row="2" VerticalAlignment="Top" Width="120" Maximum="90" Value="30" ValueChanged="SliderAngle_ValueChanged"/>
+        <Slider x:Name="SliderHeight" Grid.ColumnSpan="2" Grid.Column="1" HorizontalAlignment="Left" Margin="93,55,0,0" Grid.Row="2" VerticalAlignment="Top" Width="120" Maximum="1000" ValueChanged="SliderHeight_ValueChanged"/>
+        <Slider x:Name="SliderGravity" Grid.ColumnSpan="2" Grid.Column="1" HorizontalAlignment="Left" Margin="93,75,0,0" Grid.Row="2" VerticalAlignment="Top" Width="120" Value="9.8" ValueChanged="SliderGravity_ValueChanged"/>
+        <Slider x:Name="SliderWeight" Grid.ColumnSpan="2" Grid.Column="1" HorizontalAlignment="Left" Margin="93,98,0,0" Grid.Row="2" VerticalAlignment="Top" Width="120" Maximum="100" ValueChanged="SliderWeight_ValueChanged"/>
 
     </Grid>
 </Window>
