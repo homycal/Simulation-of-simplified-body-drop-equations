@@ -24,15 +24,15 @@ namespace Controller
             }
             SolidColorBrush redBrush = new SolidColorBrush();
             redBrush.Color = Colors.Red;
-            float precision = equation.GetZeroHeight().X * PRECISION_FACTOR;
+            float precision = equation.ZeroHeight.X * PRECISION_FACTOR;
             LinkedList<Model.Point> points = equation.GetPoints(precision);
             DrawOnCanvas(canvas[0], points, redBrush, equation);
 
         }
         private void DrawOnCanvas(Canvas canvas, LinkedList<Model.Point> points, SolidColorBrush brush, Equation equation)
         {
-            float scaleX = (float)(canvas.ActualWidth - CANVAS_PADDING - MARGIN_SCALE) / equation.GetZeroHeight().X;
-            float scaleZ = (float)(canvas.ActualHeight - CANVAS_PADDING - MARGIN_SCALE) / equation.getMaxHeight().Z;
+            float scaleX = (float)(canvas.ActualWidth - CANVAS_PADDING - MARGIN_SCALE) / equation.ZeroHeight.X;
+            float scaleZ = (float)(canvas.ActualHeight - CANVAS_PADDING - MARGIN_SCALE) / equation.MaxHeight.Z;
 
             DrawAxes(canvas, scaleX, scaleZ);
             Model.Point latest = null;
@@ -44,7 +44,7 @@ namespace Controller
                 }
                 latest = point;
             }
-            DrawLine(canvas, latest, new Model.Point(equation.GetZeroHeight().X, 0), brush, scaleX, scaleZ);
+            DrawLine(canvas, latest, new Model.Point(equation.ZeroHeight.X, 0), brush, scaleX, scaleZ);
         }
 
         private void DrawLine(Canvas canvas, Model.Point p1, Model.Point p2, SolidColorBrush brush, float scaleX, float scaleZ)
