@@ -38,7 +38,7 @@ namespace View
             float textHeight = float.Parse(TextBoxHeight.Text);
             float textGravity = float.Parse(TextBoxGravity.Text);
             float textWeight = float.Parse(TextBoxWeight.Text);
-
+            //TODO: Check errors if a letter is entered
             Equation equation = new Equation(textSpeed, textAngle, textGravity, textHeight);
 
             plotEquation(equation);
@@ -50,29 +50,32 @@ namespace View
             canvasMainGraph.Children.Clear();
             SolidColorBrush redBrush = new SolidColorBrush();
             redBrush.Color = Colors.Red;
-            float precision = equation.getZeroHeight().X*PRECISION_FACTOR;
-            float test = precision / equation.getZeroHeight().X;
-            //float precision =getPrecision(equation);
+            float precision = equation.getZeroHeight().X * PRECISION_FACTOR;
             LinkedList<Model.Point> points = equation.getPoints(precision);
-            float scaleX = (float)(canvasMainGraph.ActualWidth - CANVAS_PADDING - MARGIN_SCALE)/equation.getZeroHeight().X;
-            float scaleZ = (float)(canvasMainGraph.ActualHeight - CANVAS_PADDING - MARGIN_SCALE) / equation.getMaxHeight().Z;
+            drawOnCanvas(canvasMainGraph, points, redBrush, equation);
 
-            drawAxes(canvasMainGraph, scaleX, scaleZ);
+        }
+        private void drawOnCanvas(Canvas canvas, LinkedList<Model.Point> points, SolidColorBrush brush, Equation equation)
+        {
+            float scaleX = (float)(canvas.ActualWidth - CANVAS_PADDING - MARGIN_SCALE) / equation.getZeroHeight().X;
+            float scaleZ = (float)(canvas.ActualHeight - CANVAS_PADDING - MARGIN_SCALE) / equation.getMaxHeight().Z;
+
+            drawAxes(canvas, scaleX, scaleZ);
             Model.Point latest = null;
-            foreach(Model.Point point in points)
+            foreach (Model.Point point in points)
             {
-                if(latest != null)
+                if (latest != null)
                 {
-                    drawLine(latest, point, redBrush, scaleX, scaleZ);
+                    drawLine(canvas, latest, point, brush, scaleX, scaleZ);
                 }
                 latest = point;
             }
-            drawLine(latest, new Model.Point(equation.getZeroHeight().X, 0), redBrush, scaleX, scaleZ);
+            drawLine(canvas, latest, new Model.Point(equation.getZeroHeight().X, 0), brush, scaleX, scaleZ);
         }
 
-        private void drawLine(Model.Point p1, Model.Point p2, SolidColorBrush brush, float scaleX, float scaleZ)
+        private void drawLine(Canvas canvas, Model.Point p1, Model.Point p2, SolidColorBrush brush, float scaleX, float scaleZ)
         {
-            double invert = canvasMainGraph.ActualHeight;
+            double invert = canvas.ActualHeight;
             Line l = new Line();
             l.X1 = (scaleX * p1.X)+CANVAS_PADDING;
             l.X2 = (scaleX * p2.X)+CANVAS_PADDING;
@@ -81,7 +84,7 @@ namespace View
             l.StrokeThickness = 1;
             l.Stroke = brush;
 
-            canvasMainGraph.Children.Add(l);
+            canvas.Children.Add(l);
         }
 
         private void drawAxes(Canvas canvas, float scaleX, float scaleZ)
