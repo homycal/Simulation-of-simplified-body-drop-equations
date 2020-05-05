@@ -50,7 +50,7 @@ namespace View
             SolidColorBrush redBrush = new SolidColorBrush();
             redBrush.Color = Colors.Red;
             //float precision = equation.getZeroHeight()
-            float precision =(float) 3;
+            float precision =3;
             LinkedList<Model.Point> points = equation.getPoints(precision);
             //float scaleX = (float)(canvasMainGraph.ActualWidth - CANVAS_PADDING)/ points.Count;
             float scaleX = (float)(canvasMainGraph.ActualWidth - CANVAS_PADDING - MARGIN_SCALE)/equation.getZeroHeight().X;
@@ -109,8 +109,11 @@ namespace View
             zAxis.Stroke = blackBrush;
             canvas.Children.Add(zAxis);
 
+            //float factor = 100 / scaleX;
+            float length = 0;
+
             //X-Axis graduations
-            for (float i=CANVAS_PADDING; i < canvas.ActualWidth; i+=scaleX)
+            for (float i=CANVAS_PADDING; i < canvas.ActualWidth; i+= scaleX)
             {
                 Line grad = new Line();
                 grad.X1 = i;
@@ -120,8 +123,16 @@ namespace View
                 grad.StrokeThickness = 1;
                 grad.Stroke = blackBrush;
                 canvas.Children.Add(grad);
+                TextBlock num = new TextBlock();
+                num.Text = length.ToString();
+                num.Margin = new Thickness(i-HALF_GRADUATION, canvas.ActualHeight - CANVAS_PADDING + HALF_GRADUATION, 0, 0);
+                canvas.Children.Add(num);
+                length++;
             }
 
+            //factor = 100 / scaleZ;
+
+            length = 0;
             //Z-Axis graduations
             for (float i = (float)canvas.ActualHeight - CANVAS_PADDING; i > 0; i -= scaleZ)
             {
@@ -133,6 +144,11 @@ namespace View
                 grad.StrokeThickness = 1;
                 grad.Stroke = blackBrush;
                 canvas.Children.Add(grad);
+                TextBlock num = new TextBlock();
+                num.Text = length.ToString();
+                num.Margin = new Thickness(HALF_GRADUATION , i- 2* HALF_GRADUATION, 0, 0 );
+                canvas.Children.Add(num);
+                length++;
             }
         }
     }
