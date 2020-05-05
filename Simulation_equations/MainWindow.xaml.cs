@@ -21,9 +21,9 @@ namespace View
     /// </summary>
     public partial class MainWindow : Window
     {
-        private const float CANVAS_PADDING = 20;
+        private const float CANVAS_PADDING = 30;
         private const float HALF_GRADUATION = 5;
-        private const float MARGIN_SCALE = 20;
+        private const float MARGIN_SCALE = 30;
         public MainWindow()
         {
             InitializeComponent();
@@ -109,11 +109,13 @@ namespace View
             zAxis.Stroke = blackBrush;
             canvas.Children.Add(zAxis);
 
-            //float factor = 100 / scaleX;
+            float factor = getFactor((float)Math.Floor(100 / scaleX));
+            if (factor == 0) factor = 1;
+
             float length = 0;
 
             //X-Axis graduations
-            for (float i=CANVAS_PADDING; i < canvas.ActualWidth; i+= scaleX)
+            for (float i=CANVAS_PADDING; i < canvas.ActualWidth; i+= factor*scaleX)
             {
                 Line grad = new Line();
                 grad.X1 = i;
@@ -127,14 +129,15 @@ namespace View
                 num.Text = length.ToString();
                 num.Margin = new Thickness(i-HALF_GRADUATION, canvas.ActualHeight - CANVAS_PADDING + HALF_GRADUATION, 0, 0);
                 canvas.Children.Add(num);
-                length++;
+                length+=factor;
             }
 
-            //factor = 100 / scaleZ;
+            factor = getFactor((float)Math.Floor(100 / scaleZ));
+            if (factor == 0) factor = 1;
 
             length = 0;
             //Z-Axis graduations
-            for (float i = (float)canvas.ActualHeight - CANVAS_PADDING; i > 0; i -= scaleZ)
+            for (float i = (float)canvas.ActualHeight - CANVAS_PADDING; i > 0; i -= factor * scaleZ)
             {
                 Line grad = new Line();
                 grad.X1 = CANVAS_PADDING - HALF_GRADUATION;
@@ -148,7 +151,27 @@ namespace View
                 num.Text = length.ToString();
                 num.Margin = new Thickness(HALF_GRADUATION , i- 2* HALF_GRADUATION, 0, 0 );
                 canvas.Children.Add(num);
-                length++;
+                length += factor;
+            }
+        }
+
+        private float getFactor(float rawFactor)
+        {
+            string str = rawFactor.ToString();
+            int digits = str.Length;
+            if(digits==1)
+            {
+                return rawFactor;
+            }
+            else if (int.Parse(str[1].ToString()) < 5)
+            {
+                return (float)(int.Parse(str[0].ToString())*Math.Pow(10, digits-1));
+            }
+            else
+            {
+                return (float)((int.Parse(str[0].ToString()) + 1)*Math.Pow(10, digits-1));
+
+
             }
         }
     }
