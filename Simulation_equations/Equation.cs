@@ -196,10 +196,10 @@ namespace Model
         public List<Point> GetPointsAcceleration(float precision)
         {
             List<Point> points = new List<Point>();
-            float max = (float)Math.Ceiling(flightTime);
+            float max = flightTime;
             for (float t = 0; t < max; t += precision)
             {
-                points.Add(new Point(t, acceleration.X));
+                points.Add(new Point(t, acceleration.Z));
             }
 
             return points;

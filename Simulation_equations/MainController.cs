@@ -42,7 +42,7 @@ namespace Controller
             DrawOnCanvas(canvas[1], equation.GetPointsSpeedZ(precisionTime), blueBrush, equation, CANVAS_SPEED);
 
             //AccelerationCanvas
-            //DrawOnCanvas(canvas[2], equation.GetPointsAcceleration(precision), redBrush, equation);
+            DrawOnCanvas(canvas[2], equation.GetPointsAcceleration(precisionTime), redBrush, equation, CANVAS_ACCELERATION);
             //EnergyCanvas
             DrawOnCanvas(canvas[3], equation.GetPointsTotalEnergy(precisionTime), redBrush, equation, CANVAS_ENERGY);
             DrawOnCanvas(canvas[3], equation.GetPointsKineticEnergy(precisionTime), blueBrush, equation, CANVAS_ENERGY);
@@ -70,7 +70,11 @@ namespace Controller
                 scaleX = (float)((canvas.ActualWidth - CANVAS_PADDING - MARGIN_SCALE) / equation.FlightTime);
                 scaleZ = (float)(canvas.ActualHeight - CANVAS_PADDING - MARGIN_SCALE) / equation.GetKineticEnergy(0);
             }
-
+            else if (canvasType == CANVAS_ACCELERATION)
+            {
+                scaleX = (float)((canvas.ActualWidth - CANVAS_PADDING - MARGIN_SCALE) / equation.FlightTime);
+                scaleZ = (float)((canvas.ActualHeight - CANVAS_PADDING - MARGIN_SCALE) / (-equation.Acceleration.Z));
+            }
 
             DrawAxes(canvas, scaleX, scaleZ, canvasType);
             Model.Point latest = null;
@@ -102,7 +106,8 @@ namespace Controller
                 l.Stroke = brush;
 
                 canvas.Children.Add(l);
-            } else if(canvasType == CANVAS_SPEED)
+            } 
+            else if(canvasType == CANVAS_SPEED)
             {
                 double invert = canvas.ActualHeight;
                 Line l = new Line();
@@ -115,7 +120,18 @@ namespace Controller
 
                 canvas.Children.Add(l);
             }
+            else if(canvasType == CANVAS_ACCELERATION)
+            {
+                Line l = new Line();
+                l.X1 = (scaleX * p1.X) + CANVAS_PADDING;
+                l.X2 = (scaleX * p2.X) + CANVAS_PADDING;
+                l.Y1 = -(scaleZ * p1.Z) + CANVAS_PADDING;
+                l.Y2 = -(scaleZ * p2.Z) + CANVAS_PADDING;
+                l.StrokeThickness = 1;
+                l.Stroke = brush;
 
+                canvas.Children.Add(l);
+            }
 
         }
 
@@ -273,6 +289,73 @@ namespace Controller
                     num.Margin = new Thickness(HALF_GRADUATION, i - 2 * HALF_GRADUATION, 0, 0);
                     canvas.Children.Add(num);
                     length -= factor;
+                }
+            }
+            else if (canvasType == CANVAS_ACCELERATION)
+            {
+                //X-Axis
+                Line xAxis = new Line();
+                xAxis.X1 = 0;
+                xAxis.X2 = canvas.ActualWidth;
+                xAxis.Y1 = CANVAS_PADDING;
+                xAxis.Y2 = CANVAS_PADDING;
+                xAxis.StrokeThickness = 1;
+                xAxis.Stroke = blackBrush;
+                canvas.Children.Add(xAxis);
+
+                float factor = GetFactor((float)Math.Floor(100 / scaleX));
+                if (factor == 0) factor = 1;
+
+                float length = 0;
+
+                //X-Axis graduations
+                for (float i = CANVAS_PADDING; i < canvas.ActualWidth; i += factor * scaleX)
+                {
+                    Line grad = new Line();
+                    grad.X1 = i;
+                    grad.X2 = i;
+                    grad.Y1 = CANVAS_PADDING - HALF_GRADUATION;
+                    grad.Y2 = CANVAS_PADDING + HALF_GRADUATION;
+                    grad.StrokeThickness = 1;
+                    grad.Stroke = blackBrush;
+                    canvas.Children.Add(grad);
+                    TextBlock num = new TextBlock();
+                    num.Text = length.ToString();
+                    num.Margin = new Thickness(i - HALF_GRADUATION, CANVAS_PADDING + HALF_GRADUATION, 0, 0);
+                    canvas.Children.Add(num);
+                    length += factor;
+                }
+
+                //Z-Axis
+                Line zAxis = new Line();
+                zAxis.X1 = CANVAS_PADDING;
+                zAxis.X2 = CANVAS_PADDING;
+                zAxis.Y1 = 0;
+                zAxis.Y2 = canvas.ActualHeight;
+                zAxis.StrokeThickness = 1;
+                zAxis.Stroke = blackBrush;
+                canvas.Children.Add(zAxis);
+
+                factor = GetFactor((float)Math.Floor(100 / scaleZ));
+                if (factor == 0) factor = 1;
+
+                length = 0;
+                //Z-Axis graduations
+                for (float i = CANVAS_PADDING; i < canvas.ActualHeight ; i += factor * scaleZ)
+                {
+                    Line grad = new Line();
+                    grad.X1 = CANVAS_PADDING - HALF_GRADUATION;
+                    grad.X2 = CANVAS_PADDING + HALF_GRADUATION;
+                    grad.Y1 = i;
+                    grad.Y2 = i;
+                    grad.StrokeThickness = 1;
+                    grad.Stroke = blackBrush;
+                    canvas.Children.Add(grad);
+                    TextBlock num = new TextBlock();
+                    num.Text = length.ToString();
+                    num.Margin = new Thickness(HALF_GRADUATION, i - 2 * HALF_GRADUATION, 0, 0);
+                    canvas.Children.Add(num);
+                    length += factor;
                 }
             }
 
