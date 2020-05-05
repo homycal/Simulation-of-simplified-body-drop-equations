@@ -24,6 +24,7 @@ namespace View
         private const float CANVAS_PADDING = 30;
         private const float HALF_GRADUATION = 5;
         private const float MARGIN_SCALE = 30;
+        private const float PRECISION_FACTOR = 0.045f;
         public MainWindow()
         {
             InitializeComponent();
@@ -49,12 +50,11 @@ namespace View
             canvasMainGraph.Children.Clear();
             SolidColorBrush redBrush = new SolidColorBrush();
             redBrush.Color = Colors.Red;
-            //float precision = equation.getZeroHeight()
-            float precision =3;
+            float precision = equation.getZeroHeight().X*PRECISION_FACTOR;
+            float test = precision / equation.getZeroHeight().X;
+            //float precision =getPrecision(equation);
             LinkedList<Model.Point> points = equation.getPoints(precision);
-            //float scaleX = (float)(canvasMainGraph.ActualWidth - CANVAS_PADDING)/ points.Count;
             float scaleX = (float)(canvasMainGraph.ActualWidth - CANVAS_PADDING - MARGIN_SCALE)/equation.getZeroHeight().X;
-            //float scaleZ = (float)(canvasMainGraph.ActualHeight - CANVAS_PADDING) / points.Count;
             float scaleZ = (float)(canvasMainGraph.ActualHeight - CANVAS_PADDING - MARGIN_SCALE) / equation.getMaxHeight().Z;
 
             drawAxes(canvasMainGraph, scaleX, scaleZ);
