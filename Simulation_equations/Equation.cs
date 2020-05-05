@@ -105,7 +105,7 @@ namespace Model
             float z = GetHeight(x);
             maxHeight = new Point(x, z);
 
-            flightTime = speedZ / (-g);
+            flightTime = (-speedZ) / (-g);
 
             float delta = b * b - 4 * a * c;
             float s1 = (float)(-b - Math.Sqrt(delta)) / (2 * a);
@@ -167,7 +167,7 @@ namespace Model
         public List<Point> GetPointsSpeedX(float precision)
         {
             List<Point> points = new List<Point>();
-            float max = (float)Math.Ceiling(flightTime);
+            float max = flightTime;
             for (float t = 0; t < max; t += precision)
             {
                 points.Add(new Point(t, GetSpeed(t).X));
@@ -179,7 +179,7 @@ namespace Model
         public List<Point> GetPointsSpeedZ(float precision)
         {
             List<Point> points = new List<Point>();
-            float max = (float)Math.Ceiling(flightTime);
+            float max = flightTime;
             for (float t = 0; t < max; t += precision)
             {
                 points.Add(new Point(t, GetSpeed(t).Z));
