@@ -161,10 +161,13 @@ namespace Model
         public List<Point> GetPoints(float precision)
         {
             List<Point> points = new List<Point>();
-            points.Add(new Point(0, 0));
-            if (precision == 0) return points;
-            float max = (float)Math.Ceiling(ZeroHeight.X);
-            for(float i=precision; i<max; i += precision)
+            if (precision == 0)
+            {
+                points.Add(new Point(0, 0));
+                return points;
+            }
+            float max = ZeroHeight.X;
+            for(float i=0; i<max; i += precision)
             {
                 points.Add(new Point(i, GetHeight(i)));
             }
@@ -174,10 +177,13 @@ namespace Model
         public List<Point> GetPointsSpeedX(float precision)
         {
             List<Point> points = new List<Point>();
-            points.Add(new Point(0, 0));
-            if (precision == 0) return points;
+            if (precision == 0)
+            {
+                points.Add(new Point(0, 0));
+                return points;
+            }
             float max = flightTime;
-            for (float t = precision; t < max; t += precision)
+            for (float t = 0; t < max; t += precision)
             {
                 points.Add(new Point(t, GetSpeed(t).X));
             }
@@ -188,10 +194,13 @@ namespace Model
         public List<Point> GetPointsSpeedZ(float precision)
         {
             List<Point> points = new List<Point>();
-            points.Add(new Point(0, 0));
-            if (precision == 0) return points;
+            if (precision == 0)
+            {
+                points.Add(new Point(0, 0));
+                return points;
+            }
             float max = flightTime;
-            for (float t = precision; t < max; t += precision)
+            for (float t = 0; t < max; t += precision)
             {
                 points.Add(new Point(t, GetSpeed(t).Z));
             }
@@ -202,10 +211,13 @@ namespace Model
         public List<Point> GetPointsAcceleration(float precision)
         {
             List<Point> points = new List<Point>();
-            points.Add(new Point(0, 0));
-            if (precision == 0) return points;
+            if (precision == 0)
+            {
+                points.Add(new Point(0, 0));
+                return points;
+            }
             float max = flightTime;
-            for (float t = precision; t < max; t += precision)
+            for (float t = 0; t < max; t += precision)
             {
                 points.Add(new Point(t, acceleration.Z));
             }
@@ -216,10 +228,13 @@ namespace Model
         public List<Point> GetPointsKineticEnergy(float precision)
         {
             List<Point> points = new List<Point>();
-            points.Add(new Point(0, 0));
-            if (precision == 0) return points;
+            if (precision == 0)
+            {
+                points.Add(new Point(0, 0));
+                return points;
+            }
             float max = flightTime;
-            for (float t = precision; t < max; t += precision)
+            for (float t = 0; t < max; t += precision)
             {
                 points.Add(new Point(t, GetKineticEnergy(t)));
             }
@@ -230,10 +245,13 @@ namespace Model
         public List<Point> GetPointsPotentialEnergy(float precision)
         {
             List<Point> points = new List<Point>();
-            points.Add(new Point(0, 0));
-            if (precision == 0) return points;
+            if (precision == 0)
+            {
+                points.Add(new Point(0, 0));
+                return points;
+            }
             float max = flightTime;
-            for (float t = precision; t < max; t += precision)
+            for (float t = 0; t < max; t += precision)
             {
                 points.Add(new Point(t, GetPotentialEnergy(t)));
             }
@@ -244,10 +262,13 @@ namespace Model
         public List<Point> GetPointsTotalEnergy(float precision)
         {
             List<Point> points = new List<Point>();
-            points.Add(new Point(0, 0));
-            if (precision == 0) return points;
+            if (precision == 0)
+            {
+                points.Add(new Point(0, 0));
+                return points;
+            }
             float max = flightTime;
-            for (float t = precision; t < max; t += precision)
+            for (float t = 0; t < max; t += precision)
             {
                 points.Add(new Point(t, GetTotalEnergy(t)));
             }
@@ -258,10 +279,13 @@ namespace Model
         public List<Point> GetPointsTotalEnergy(float precision, List<Point> potentialEnergy, List<Point> kineticEnergy)
         {
             List<Point> points = new List<Point>();
-            points.Add(new Point(0, 0));
-            if (precision == 0) return points;
+            if (precision == 0)
+            {
+                points.Add(new Point(0, 0));
+                return points;
+            }
             int i = 0;
-            for(float t =precision; t< flightTime; t += precision)
+            for(float t =0; t< flightTime; t += precision)
             {
                 points.Add(new Point(t, potentialEnergy[i].Z + kineticEnergy[i].Z));
                 i++;
