@@ -122,6 +122,12 @@ namespace Controller
             unitZ.Margin = new Thickness(CANVAS_PADDING + 2*HALF_GRADUATION, HALF_GRADUATION, 0, 0);
             canvas.Children.Add(unitZ);
 
+            //Origin
+            TextBlock origin = new TextBlock();
+            origin.Text = "O";
+            origin.Margin = new Thickness(CANVAS_PADDING-4*HALF_GRADUATION, canvas.ActualHeight - CANVAS_PADDING , 0, 0);
+            canvas.Children.Add(origin);
+
             Model.Point latest = null;
             points.Add(equation.ZeroHeight);
             foreach (Model.Point point in points)
@@ -222,6 +228,22 @@ namespace Controller
                 length -= factor;
             }
 
+            //Units
+            TextBlock unitX = new TextBlock();
+            unitX.Text = "t (s)";
+            unitX.Margin = new Thickness(canvas.ActualWidth - 5*HALF_GRADUATION, canvas.ActualHeight/2 - 4 * HALF_GRADUATION, 0, 0);
+            canvas.Children.Add(unitX);
+            TextBlock unitZVZ = new TextBlock();
+            unitZVZ.Text = "v (m/s)";
+            unitZVZ.Margin = new Thickness(2*CANVAS_PADDING + HALF_GRADUATION, HALF_GRADUATION/2, 0, 0);
+            unitZVZ.Foreground = blueBrush;
+            canvas.Children.Add(unitZVZ);
+            TextBlock unitZVX = new TextBlock();
+            unitZVX.Text = "v (m/s)";
+            unitZVX.Margin = new Thickness(CANVAS_PADDING + HALF_GRADUATION, HALF_GRADUATION / 2, 0, 0);
+            unitZVX.Foreground = redBrush;
+            canvas.Children.Add(unitZVX);
+
             Model.Point latestX = null;
             Model.Point latestZ = null;
             for(int i=0; i<pointsSpeedX.Count; i++)
@@ -304,6 +326,17 @@ namespace Controller
                 length += factor;
             }
 
+            //Units
+            TextBlock unitX = new TextBlock();
+            unitX.Text = "t (s)";
+            unitX.Margin = new Thickness(canvas.ActualWidth - 5 * HALF_GRADUATION, CANVAS_PADDING - 4 * HALF_GRADUATION, 0, 0);
+            canvas.Children.Add(unitX);
+            TextBlock unitZ = new TextBlock();
+            unitZ.Text = "az (m/s²)";
+            unitZ.Margin = new Thickness(CANVAS_PADDING + HALF_GRADUATION, canvas.ActualHeight - CANVAS_PADDING/ 2, 0, 0);
+            unitZ.Foreground = redBrush;
+            canvas.Children.Add(unitZ);
+
             Model.Point latest = null;
             foreach (Model.Point point in points)
             {
@@ -378,6 +411,26 @@ namespace Controller
                 canvas.Children.Add(num);
                 length += factor;
             }
+
+            TextBlock unitX = new TextBlock();
+            unitX.Text = "t (s)";
+            unitX.Margin = new Thickness(canvas.ActualWidth - 5 * HALF_GRADUATION, canvas.ActualHeight - CANVAS_PADDING - 4 * HALF_GRADUATION, 0, 0);
+            canvas.Children.Add(unitX);
+            TextBlock unitZTE = new TextBlock();
+            unitZTE.Text = "TE (J)";
+            unitZTE.Margin = new Thickness(CANVAS_PADDING + HALF_GRADUATION, HALF_GRADUATION / 2, 0, 0);
+            unitZTE.Foreground = redBrush;
+            canvas.Children.Add(unitZTE);
+            TextBlock unitZKE = new TextBlock();
+            unitZKE.Text = "KE (J)";
+            unitZKE.Margin = new Thickness(2*CANVAS_PADDING + HALF_GRADUATION, HALF_GRADUATION / 2, 0, 0);
+            unitZKE.Foreground = blueBrush;
+            canvas.Children.Add(unitZKE);
+            TextBlock unitZEP = new TextBlock();
+            unitZEP.Text = "EP (J)";
+            unitZEP.Margin = new Thickness(3*CANVAS_PADDING + HALF_GRADUATION, HALF_GRADUATION / 2, 0, 0);
+            unitZEP.Foreground = greenBrush;
+            canvas.Children.Add(unitZEP);
 
             Model.Point latestK = null;
             Model.Point latestP = null;
