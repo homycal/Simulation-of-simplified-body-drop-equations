@@ -123,7 +123,20 @@ namespace Model
 
         public override string ToString()
         {
-            return "-0.5 * (" + g + "/" + speedInit + "²) * x² * [1+tan²(" + angle + ")] + x * tan(" + angle + ")";
+            return " Accelerations:\n" +
+                " ax=0\n" +
+                " az=-" + Math.Round(g,2) + "\n" +
+                "\n" +
+                " Velocities:\n" +
+                " vx=" + Math.Round(speedX,2) + "\n" +
+                " vz=-" + Math.Round(g,2) + "*t+" + Math.Round(speedZ,2) + "\n" +
+                "\n" +
+                " Positions:\n" +
+                " OGx=" + Math.Round(speedX,2) + "*t+0\n" +
+                " OGz=" + Math.Round(-0.5 * g,2) + "*t²+" + Math.Round(speedZ,2) + "*t+" + Math.Round(h,2) + "\n"+
+                "\n"+
+                " Trajectory:\n"+
+                " z(x)="+ Math.Round(-0.5 * g,2) +"*x²/"+Math.Round(Math.Pow(speedX,2),2)+"+"+ Math.Round(b,2) +"*x+"+ Math.Round(h,2);
         }
 
         public float GetHeight(float x)

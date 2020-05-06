@@ -55,6 +55,7 @@ namespace View
             //TODO: Check errors if a letter is entered
             equation = new Equation(textSpeed, textAngle, textGravity, textHeight, textWeight);
             controller.PlotEquation(canvas, equation);
+            TextBlockEquationDesc.Text = equation.ToString();
 
         }
         private void SliderSpeed_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
