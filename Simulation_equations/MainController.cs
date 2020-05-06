@@ -12,7 +12,7 @@ namespace Controller
 {
     class MainController
     {
-        private const float CANVAS_PADDING = 30;
+        private const float CANVAS_PADDING = 40;
         private const float HALF_GRADUATION = 5;
         private const float MARGIN_SCALE = 30;
         private const float PRECISION_FACTOR = 0.045f;
@@ -34,8 +34,8 @@ namespace Controller
             blueBrush.Color = Colors.Blue;
             SolidColorBrush greenBrush = new SolidColorBrush();
             greenBrush.Color = Colors.Green;
-            float precisionDistance = equation.ZeroHeight.X * PRECISION_FACTOR;
-            float precisionTime = equation.FlightTime * PRECISION_FACTOR;
+            float precisionDistance = (float)Math.Round(equation.ZeroHeight.X * PRECISION_FACTOR,3);
+            float precisionTime =(float) Math.Round(equation.FlightTime * PRECISION_FACTOR,3);
             DrawOnCanvas(canvas[0], equation.GetPoints(precisionDistance), redBrush, equation, CANVAS_MAIN);
             //SpeedCanvas
             DrawOnCanvas(canvas[1], equation.GetPointsSpeedX(precisionTime), redBrush, equation, CANVAS_SPEED);
@@ -75,6 +75,17 @@ namespace Controller
                 scaleX = (float)((canvas.ActualWidth - CANVAS_PADDING - MARGIN_SCALE) / equation.FlightTime);
                 scaleZ = (float)((canvas.ActualHeight - CANVAS_PADDING - MARGIN_SCALE) / (-equation.Acceleration.Z));
             }
+
+            if(float.IsNaN(scaleX) || float.IsInfinity(scaleX))
+            {
+                scaleX = 1;
+            }
+
+            if (float.IsNaN(scaleZ) || float.IsInfinity(scaleZ))
+            {
+                scaleZ = 1;
+            }
+
 
             DrawAxes(canvas, scaleX, scaleZ, canvasType);
             Model.Point latest = null;
@@ -152,8 +163,15 @@ namespace Controller
                 xAxis.Stroke = blackBrush;
                 canvas.Children.Add(xAxis);
 
-                float factor = GetFactor((float)Math.Floor(100 / scaleX));
-                if (factor == 0) factor = 1;
+                float factor = (float)Math.Floor(100 / scaleX);
+                if (factor == 0)
+                {
+                    factor = 1;
+                }
+                else
+                {
+                    factor = GetFactor(factor);
+                }
 
                 float length = 0;
 
@@ -185,8 +203,15 @@ namespace Controller
                 zAxis.Stroke = blackBrush;
                 canvas.Children.Add(zAxis);
 
-                factor = GetFactor((float)Math.Floor(100 / scaleZ));
-                if (factor == 0) factor = 1;
+                factor = (float)Math.Floor(100 / scaleZ);
+                if (factor == 0)
+                {
+                    factor = 1;
+                }
+                else
+                {
+                    factor = GetFactor(factor);
+                }
 
                 length = 0;
                 //Z-Axis graduations
@@ -219,8 +244,16 @@ namespace Controller
                 xAxis.Stroke = blackBrush;
                 canvas.Children.Add(xAxis);
 
-                float factor = GetFactor((float)Math.Floor(100 / scaleX));
-                if (factor == 0) factor = 1;
+                float factor = (float)Math.Floor(100 / scaleX);
+                if(factor == 0)
+                {
+                    factor = 1;
+                }
+                else
+                {
+                    factor = GetFactor(factor);
+                }
+
 
                 float length = 0;
 
@@ -252,8 +285,15 @@ namespace Controller
                 zAxis.Stroke = blackBrush;
                 canvas.Children.Add(zAxis);
 
-                factor = GetFactor((float)Math.Floor(50 / scaleZ));
-                if (factor == 0) factor = 1;
+                factor = (float)Math.Floor(100 / scaleZ);
+                if (factor == 0)
+                {
+                    factor = 1;
+                }
+                else
+                {
+                    factor = GetFactor(factor);
+                }
 
                 length = 0;
                 //Z-Axis graduations
@@ -303,8 +343,16 @@ namespace Controller
                 xAxis.Stroke = blackBrush;
                 canvas.Children.Add(xAxis);
 
-                float factor = GetFactor((float)Math.Floor(100 / scaleX));
-                if (factor == 0) factor = 1;
+
+                float factor = (float)Math.Floor(100 / scaleX);
+                if (factor == 0)
+                {
+                    factor = 1;
+                }
+                else
+                {
+                    factor = GetFactor(factor);
+                }
 
                 float length = 0;
 
@@ -336,8 +384,15 @@ namespace Controller
                 zAxis.Stroke = blackBrush;
                 canvas.Children.Add(zAxis);
 
-                factor = GetFactor((float)Math.Floor(100 / scaleZ));
-                if (factor == 0) factor = 1;
+                factor = (float)Math.Floor(100 / scaleZ);
+                if (factor == 0)
+                {
+                    factor = 1;
+                }
+                else
+                {
+                    factor = GetFactor(factor);
+                }
 
                 length = 0;
                 //Z-Axis graduations
