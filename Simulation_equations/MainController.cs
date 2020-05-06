@@ -68,7 +68,7 @@ namespace Controller
             else if (canvasType == CANVAS_ENERGY)
             {
                 scaleX = (float)((canvas.ActualWidth - CANVAS_PADDING - MARGIN_SCALE) / equation.FlightTime);
-                scaleZ = (float)(canvas.ActualHeight - CANVAS_PADDING - MARGIN_SCALE) / equation.GetKineticEnergy(0);
+                scaleZ = (float)(canvas.ActualHeight - CANVAS_PADDING - MARGIN_SCALE) / equation.GetTotalEnergy(0);
             }
             else if (canvasType == CANVAS_ACCELERATION)
             {

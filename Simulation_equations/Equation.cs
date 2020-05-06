@@ -134,7 +134,7 @@ namespace Model
 
         public Point GetPosition(float time)
         {
-            return new Point( speedX * time, (float)(-0.5*g*time*time)+speedZ*time);
+            return new Point( speedX * time, (float)(-0.5*g*time*time)+speedZ*time+h);
         }
 
         public Point GetSpeed(float time)
