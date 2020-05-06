@@ -9,6 +9,7 @@ using System.Windows.Shapes;
 using System.Windows;
 using System.ComponentModel.DataAnnotations;
 using System.Windows.Input.Manipulations;
+using System.Drawing;
 
 namespace Controller
 {
@@ -22,7 +23,13 @@ namespace Controller
         SolidColorBrush blueBrush;
         SolidColorBrush greenBrush;
         SolidColorBrush blackBrush;
-        public MainController()
+        private MainWindow window;
+        private float mainScaleX;
+        private float mainScaleZ;
+        private Line pointerLineX;
+        private Line pointerLineZ;
+
+        public MainController(MainWindow window)
         {
             redBrush = new SolidColorBrush();
             redBrush.Color = Colors.Red;
@@ -32,6 +39,7 @@ namespace Controller
             greenBrush.Color = Colors.Green;
             blackBrush = new SolidColorBrush();
             blackBrush.Color = Colors.Black;
+            this.window = window;
         }
 
         public void PlotEquation(List<Canvas> canvas, Equation equation)
@@ -59,7 +67,8 @@ namespace Controller
             List<Model.Point> points = equation.GetPoints(precision);
             scaleX = CheckScales(scaleX);
             scaleZ = CheckScales(scaleZ);
-
+            mainScaleX = scaleX;
+            mainScaleZ = scaleZ;
             //X-Axis
             Line xAxis = new Line();
             xAxis.X1 = 0;
@@ -532,6 +541,41 @@ namespace Controller
             l.Y1 = invert - CANVAS_PADDING - scaleZ * latest.Z;
             l.Y2 = invert - CANVAS_PADDING - scaleZ * next.Z;
             DrawLine(canvas, l, brush);
+        }
+        public void SetCoordText(System.Windows.Point point, Canvas canvas)
+        {
+            window.TextBoxCoordinates.Text = "Coordinates:\n(" + Math.Round((point.X - CANVAS_PADDING) / mainScaleX, 2) + " ; " + Math.Round((point.Y - canvas.ActualHeight + CANVAS_PADDING) /(- mainScaleZ),2) + ")";
+        }
+        public void DrawPointerLine(System.Windows.Point point, Canvas canvas)
+        {
+            if (pointerLineX != null)
+                canvas.Children.Remove(pointerLineX);
+            if (pointerLineZ != null)
+                canvas.Children.Remove(pointerLineZ);
+
+            pointerLineX = new Line();
+            DoubleCollection col = new DoubleCollection();
+            col.Add(4);
+            col.Add(2);
+            pointerLineX.StrokeDashArray = col;
+            pointerLineX.StrokeThickness = 1;
+            pointerLineX.Stroke = blackBrush;
+            pointerLineX.X1 = point.X;
+            pointerLineX.Y1 = point.Y;
+            pointerLineX.X2 = point.X;
+            pointerLineX.Y2 = canvas.ActualHeight- CANVAS_PADDING;
+            canvas.Children.Add(pointerLineX);
+
+            pointerLineZ = new Line();
+            pointerLineZ.StrokeDashArray = col;
+            pointerLineZ.StrokeThickness = 1;
+            pointerLineZ.Stroke = blackBrush;
+            pointerLineZ.X1 = point.X;
+            pointerLineZ.Y1 = point.Y;
+            pointerLineZ.X2 = CANVAS_PADDING;
+            pointerLineZ.Y2 = point.Y;
+            canvas.Children.Add(pointerLineZ);
+
         }
     }
 }

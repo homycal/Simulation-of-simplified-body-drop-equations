@@ -22,7 +22,7 @@ namespace View
     /// </summary>
     public partial class MainWindow : Window
     {
-        private MainController controller = new MainController();
+        private MainController controller;
         private Equation equation;
         private List<Canvas> canvas = new List<Canvas>();
         private float textSpeed;
@@ -33,6 +33,7 @@ namespace View
         public MainWindow()
         {
             InitializeComponent();
+            controller = new MainController(this);
             canvas.Add(CanvasMainGraph);
             canvas.Add(CanvasSpeed);
             canvas.Add(CanvasAcceleration);
@@ -129,6 +130,15 @@ namespace View
             if (equation != null)
             {
                 GetValues();
+            }
+        }
+
+        private void CanvasMainGraph_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (equation != null)
+            {
+                controller.SetCoordText(e.GetPosition(CanvasMainGraph), CanvasMainGraph);
+                controller.DrawPointerLine(e.GetPosition(CanvasMainGraph), CanvasMainGraph);
             }
         }
     }
