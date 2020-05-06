@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows;
+using System.ComponentModel.DataAnnotations;
 
 namespace Controller
 {
@@ -63,7 +64,15 @@ namespace Controller
             else if (canvasType == CANVAS_SPEED)
             {
                 scaleX = (float)((canvas.ActualWidth - CANVAS_PADDING - MARGIN_SCALE) /equation.FlightTime);
-                scaleZ = (float)((canvas.ActualHeight/2 - MARGIN_SCALE) / equation.SpeedInit);
+                float sZ = -equation.GetSpeed(equation.FlightTime).Z;
+                float sX = equation.SpeedX;
+                if(sZ > sX)
+                {
+                    scaleZ = (float)((canvas.ActualHeight / 2 - MARGIN_SCALE) / sZ);
+                }else
+                {
+                    scaleZ = (float)((canvas.ActualHeight / 2 - MARGIN_SCALE) / sX);
+                }
             }
             else if (canvasType == CANVAS_ENERGY)
             {
