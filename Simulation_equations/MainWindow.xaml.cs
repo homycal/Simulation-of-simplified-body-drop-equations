@@ -53,11 +53,11 @@ namespace View
         {
             try
             {
-                textSpeed = float.Parse(TextBoxSpeed.Text);
-                textAngle = float.Parse(TextBoxAngle.Text);
-                textHeight = float.Parse(TextBoxHeight.Text);
-                textGravity = float.Parse(TextBoxGravity.Text);
-                textWeight = float.Parse(TextBoxWeight.Text);
+                textSpeed = CheckValue(SliderSpeed, TextBoxSpeed);
+                textAngle = CheckValue(SliderAngle, TextBoxAngle);
+                textHeight = CheckValue(SliderHeight, TextBoxHeight);
+                textGravity = CheckValue(SliderGravity, TextBoxGravity);
+                textWeight = CheckValue(SliderWeight, TextBoxWeight);
                 equation = new Equation(textSpeed, textAngle, textGravity, textHeight, textWeight);
                 controller.PlotEquation(canvas, equation);
                 TextBlockEquationDesc.Text = equation.ToString();
@@ -70,6 +70,21 @@ namespace View
             }
 
 
+        }
+        private float CheckValue(Slider slider, TextBox textBox)
+        {
+            float value = float.Parse(textBox.Text);
+            if (value > slider.Maximum)
+            {
+                value = (float)slider.Maximum;
+            }
+            if (value < slider.Minimum)
+            {
+                value = (float)slider.Minimum;
+            }
+            textBox.Text = value.ToString();
+            slider.Value = value;
+            return value;
         }
         private void SliderSpeed_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
