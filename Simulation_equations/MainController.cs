@@ -30,6 +30,10 @@ namespace Controller
         private Line pointerLineX;
         private Line pointerLineZ;
 
+        /// <summary>
+        /// Controller constructor
+        /// </summary>
+        /// <param name="window"></param>
         public MainController(MainWindow window)
         {
             redBrush = new SolidColorBrush();
@@ -42,6 +46,11 @@ namespace Controller
             blackBrush.Color = Colors.Black;
             this.window = window;
         }
+        /// <summary>
+        /// Plot the equation
+        /// </summary>
+        /// <param name="canvas">Canvas whete to plot</param>
+        /// <param name="equation">Equation to plot</param>
         public void PlotEquation(List<Canvas> canvas, Equation equation)
         {
             foreach (Canvas c in canvas)
@@ -59,9 +68,15 @@ namespace Controller
             DrawAccelerationCanvas(canvas[2], precisionTime, equation);
             //EnergyCanvas
             DrawEnergiesCanvas(canvas[3], precisionTime, equation);
-            
+
         }
-        public void DrawMainCanvas(Canvas canvas, float precision, Equation equation)
+        /// <summary>
+        /// Plot the trajectory of the equation on the given canvas
+        /// </summary>
+        /// <param name="canvas">Canvas where to draw</param>
+        /// <param name="precision">With which precision draw</param>
+        /// <param name="equation">Equation to draw</param>
+        private void DrawMainCanvas(Canvas canvas, float precision, Equation equation)
         {
             float scaleX = (float)(canvas.ActualWidth - CANVAS_PADDING - MARGIN_SCALE) / equation.ZeroHeight.X;
             float scaleZ = (float)(canvas.ActualHeight - CANVAS_PADDING - MARGIN_SCALE) / equation.MaxHeight.Z;
@@ -151,7 +166,13 @@ namespace Controller
             DrawMaxHeight(canvas, equation.MaxHeight, scaleX, scaleZ, redBrush);
             DrawMaxLength(canvas, points[points.Count-1], scaleX, scaleZ, blueBrush);
         }
-        public void DrawSpeedCanvas(Canvas canvas, float precision, Equation equation)
+        /// <summary>
+        /// Plot the speeds of the equation on the given canvas
+        /// </summary>
+        /// <param name="canvas">Canvas where to draw</param>
+        /// <param name="precision">With which precision draw</param>
+        /// <param name="equation">Equation to draw</param>
+        private void DrawSpeedCanvas(Canvas canvas, float precision, Equation equation)
         {
             List<Model.Point> pointsSpeedX = equation.GetPointsSpeedX(precision);
             List<Model.Point> pointsSpeedZ = equation.GetPointsSpeedZ(precision);
@@ -274,7 +295,13 @@ namespace Controller
                 latestZ = pointsSpeedZ[i];
             }
         }
-        public void DrawAccelerationCanvas(Canvas canvas, float precision, Equation equation)
+        /// <summary>
+        /// Plot the acceleration of the equation on the given canvas
+        /// </summary>
+        /// <param name="canvas">Canvas where to draw</param>
+        /// <param name="precision">With which precision draw</param>
+        /// <param name="equation">Equation to draw</param>
+        private void DrawAccelerationCanvas(Canvas canvas, float precision, Equation equation)
         {
             List<Model.Point> points = equation.GetPointsAcceleration(precision);
             float scaleX = (float)((canvas.ActualWidth - CANVAS_PADDING - MARGIN_SCALE) / equation.FlightTime);
@@ -360,7 +387,13 @@ namespace Controller
             }
 
         }
-        public void DrawEnergiesCanvas(Canvas canvas, float precision, Equation equation)
+        /// <summary>
+        /// Plot the energies of the equation on the given canvas
+        /// </summary>
+        /// <param name="canvas">Canvas where to draw</param>
+        /// <param name="precision">With which precision draw</param>
+        /// <param name="equation">Equation to draw</param>
+        private void DrawEnergiesCanvas(Canvas canvas, float precision, Equation equation)
         {
             List<Model.Point> pointsKinetic = equation.GetPointsKineticEnergy(precision);
             List<Model.Point> pointsPotential = equation.GetPointsPotentialEnergy(precision);
@@ -466,6 +499,11 @@ namespace Controller
                 latestT = new Model.Point(pointsKinetic[i].X, pointsKinetic[i].Z + pointsPotential[i].Z);
             }
         }
+        /// <summary>
+        /// Calculate the factor for a scale to get consistent coordinates
+        /// </summary>
+        /// <param name="scale"></param>
+        /// <returns></returns>
         private float GetFactor(float scale)
         {
             float rawFactor = (float)Math.Floor(100 / scale);
@@ -488,6 +526,11 @@ namespace Controller
                 return (float)((int.Parse(str[0].ToString()) + 1) * Math.Pow(10, digits - 1));
             }
         }
+        /// <summary>
+        /// If a scale is Infinity or Nan, return 1, otherwise, retrun scale
+        /// </summary>
+        /// <param name="scale">Scale to test</param>
+        /// <returns></returns>
         private float CheckScales(float scale)
         {
             if (float.IsNaN(scale) || float.IsInfinity(scale))
@@ -499,12 +542,27 @@ namespace Controller
                 return scale;
             }
         }
+        /// <summary>
+        /// Draw the line on the given canvas with the given brush
+        /// </summary>
+        /// <param name="canvas">Canvas where to draw</param>
+        /// <param name="axis">Line to draw</param>
+        /// <param name="brush">Brush to use</param>
         private void DrawLine(Canvas canvas, Line axis, SolidColorBrush brush)
         {
             axis.StrokeThickness = 1;
             axis.Stroke = brush;
             canvas.Children.Add(axis);
         }
+        /// <summary>
+        /// Draw a line between two points of the trajectory
+        /// </summary>
+        /// <param name="canvas">Canvas where to draw</param>
+        /// <param name="brush">Brush to use</param>
+        /// <param name="latest">First point</param>
+        /// <param name="next">Second point</param>
+        /// <param name="scaleX">Scale on the X-Axis</param>
+        /// <param name="scaleZ">Scale on the Z-Axis</param>
         private void DrawMainLine(Canvas canvas, SolidColorBrush brush, Model.Point latest, Model.Point next, float scaleX, float scaleZ)
         {
             double invert = canvas.ActualHeight;
@@ -515,6 +573,15 @@ namespace Controller
             l.Y2 = invert - CANVAS_PADDING - scaleZ * next.Z;
             DrawLine(canvas, l, brush);
         }
+        /// <summary>
+        /// Draw a line between two points of the speeds representation
+        /// </summary>
+        /// <param name="canvas">Canvas where to draw</param>
+        /// <param name="brush">Brush to use</param>
+        /// <param name="latest">First point</param>
+        /// <param name="next">Second point</param>
+        /// <param name="scaleX">Scale on the X-Axis</param>
+        /// <param name="scaleZ">Scale on the Z-Axis</param>
         private void DrawSpeedLine(Canvas canvas, SolidColorBrush brush, Model.Point latest, Model.Point next, float scaleX, float scaleZ)
         {
             double invert = canvas.ActualHeight;
@@ -525,6 +592,15 @@ namespace Controller
             l.Y2 = invert - canvas.ActualHeight / 2 - scaleZ * next.Z;
             DrawLine(canvas, l, brush);
         }
+        /// <summary>
+        /// Draw a line between two points of the acceleration representation
+        /// </summary>
+        /// <param name="canvas">Canvas where to draw</param>
+        /// <param name="brush">Brush to use</param>
+        /// <param name="latest">First point</param>
+        /// <param name="next">Second point</param>
+        /// <param name="scaleX">Scale on the X-Axis</param>
+        /// <param name="scaleZ">Scale on the Z-Axis</param>
         private void DrawAccelerationLine(Canvas canvas, SolidColorBrush brush, Model.Point latest, Model.Point next, float scaleX, float scaleZ)
         {
 
@@ -535,6 +611,15 @@ namespace Controller
             l.Y2 = -(scaleZ * next.Z) + CANVAS_PADDING;
             DrawLine(canvas, l, brush);
         }
+        /// <summary>
+        /// Draw a line between two points of the energies representation
+        /// </summary>
+        /// <param name="canvas">Canvas where to draw</param>
+        /// <param name="brush">Brush to use</param>
+        /// <param name="latest">First point</param>
+        /// <param name="next">Second point</param>
+        /// <param name="scaleX">Scale on the X-Axis</param>
+        /// <param name="scaleZ">Scale on the Z-Axis</param>
         private void DrawEnergyLine(Canvas canvas, SolidColorBrush brush, Model.Point latest, Model.Point next, float scaleX, float scaleZ)
         {
             double invert = canvas.ActualHeight;
@@ -545,10 +630,20 @@ namespace Controller
             l.Y2 = invert - CANVAS_PADDING - scaleZ * next.Z;
             DrawLine(canvas, l, brush);
         }
+        /// <summary>
+        /// Set the coordinates in TextBoxCoord
+        /// </summary>
+        /// <param name="point">Coordinates</param>
+        /// <param name="canvas">Coordinates are relaive to this canvas</param>
         public void SetCoordText(System.Windows.Point point, Canvas canvas)
         {
             window.TextBoxCoordinates.Text = "Coordinates:\n(" + Math.Round((point.X - CANVAS_PADDING) / mainScaleX, 2) + " ; " + Math.Round((point.Y - canvas.ActualHeight + CANVAS_PADDING) /(- mainScaleZ),2) + ")";
         }
+        /// <summary>
+        /// Draw lines from ais to the pointer
+        /// </summary>
+        /// <param name="point">Pointer position</param>
+        /// <param name="canvas">Canas where to draw</param>
         public void DrawPointerLine(System.Windows.Point point, Canvas canvas)
         {
             if (pointerLineX != null)
@@ -580,6 +675,14 @@ namespace Controller
             canvas.Children.Add(pointerLineZ);
 
         }
+        /// <summary>
+        /// Draw where the max height is
+        /// </summary>
+        /// <param name="canvas">Canvas where to draw</param>
+        /// <param name="point">Max height</param>
+        /// <param name="scaleX">Scale on X-Axis</param>
+        /// <param name="scaleZ">scale on Z-Axis</param>
+        /// <param name="brush">Brush to use</param>
         private void DrawMaxHeight(Canvas canvas, Model.Point point, float scaleX, float scaleZ, SolidColorBrush brush)
         {
             Line l = new Line();
@@ -620,6 +723,14 @@ namespace Controller
             grad.Margin = new Thickness(point.X*scaleX +CANVAS_PADDING - HALF_GRADUATION, canvas.ActualHeight - CANVAS_PADDING - 4*HALF_GRADUATION , 0, 0);
             canvas.Children.Add(grad);
         }
+        /// <summary>
+        /// Draw where the max lenght is
+        /// </summary>
+        /// <param name="canvas">Canvas where to draw</param>
+        /// <param name="point">Max lenght</param>
+        /// <param name="scaleX">Scale on X-Axis</param>
+        /// <param name="scaleZ">scale on Z-Axis</param>
+        /// <param name="brush">Brush to use</param>
         private void DrawMaxLength(Canvas canvas, Model.Point point, float scaleX, float scaleZ, SolidColorBrush brush)
         {
             Line l = new Line();

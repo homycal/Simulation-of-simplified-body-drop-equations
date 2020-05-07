@@ -33,6 +33,7 @@ namespace View
         public MainWindow()
         {
             InitializeComponent();
+            Title = "Simulation of simplified body drop equations";
             controller = new MainController(this);
             canvas.Add(CanvasMainGraph);
             canvas.Add(CanvasSpeed);
@@ -41,14 +42,21 @@ namespace View
             SolidColorBrush redBrush = new SolidColorBrush();
             redBrush.Color = Colors.Red;
             TextBlockError.Foreground = redBrush;
-        }
 
+        }
+        /// <summary>
+        /// Action when the button is clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonCalcul_Click_1(object sender, RoutedEventArgs e)
         {
 
             GetValues();
         }
-
+        /// <summary>
+        /// Get values form TextBoxes
+        /// </summary>
         private void GetValues()
         {
             try
@@ -71,6 +79,13 @@ namespace View
 
 
         }
+        /// <summary>
+        /// Check if values in TextBoxes are fair
+        /// Associate the value of a Slider and a Textbox
+        /// </summary>
+        /// <param name="slider"></param>
+        /// <param name="textBox"></param>
+        /// <returns></returns>
         private float CheckValue(Slider slider, TextBox textBox)
         {
             float value = float.Parse(textBox.Text);
@@ -86,31 +101,56 @@ namespace View
             slider.Value = value;
             return value;
         }
+        /// <summary>
+        /// Action when the value of the slider SliderSpeed has changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SliderSpeed_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             TextBoxSpeed.Text = Math.Round(SliderSpeed.Value,2).ToString();
         }
-
+        /// <summary>
+        /// Action when the value of the slider SliderAngle has changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SliderAngle_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             TextBoxAngle.Text = Math.Round(SliderAngle.Value,2).ToString();
         }
-
+        /// <summary>
+        /// Action when the value of the slider SliderHeight has changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SliderHeight_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             TextBoxHeight.Text = Math.Round(SliderHeight.Value,2).ToString();
         }
-
+        /// <summary>
+        /// Action when the value of the slider SliderGravity has changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SliderGravity_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             TextBoxGravity.Text = Math.Round(SliderGravity.Value,2).ToString();
         }
-
+        /// <summary>
+        /// Action when the value of the slider SliderWeight has changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SliderWeight_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             TextBoxWeight.Text = Math.Round(SliderWeight.Value,2).ToString();
         }
-
+        /// <summary>
+        /// Action when the grid size has changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if(equation != null)
@@ -119,7 +159,11 @@ namespace View
 
             }
         }
-
+        /// <summary>
+        /// Action when the TextBoxSpeed text has changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TextBoxSpeed_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (equation != null)
@@ -127,7 +171,10 @@ namespace View
                 GetValues();
             }
         }
-
+        /// Action when the TextBoxAngle text has changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TextBoxAngle_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (equation != null)
@@ -135,7 +182,10 @@ namespace View
                 GetValues();
             }
         }
-
+        /// Action when the TextBoxHeight text has changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TextBoxHeight_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (equation != null)
@@ -143,7 +193,10 @@ namespace View
                 GetValues();
             }
         }
-
+        /// Action when the TextBoxGravity text has changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TextBoxGravity_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (equation != null)
@@ -151,7 +204,10 @@ namespace View
                 GetValues();
             }
         }
-
+        /// Action when the TextBoxWeight text has changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TextBoxWeight_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (equation != null)
@@ -159,7 +215,10 @@ namespace View
                 GetValues();
             }
         }
-
+        /// Action when there is a click on CanvasMainGraph
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CanvasMainGraph_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (equation != null)

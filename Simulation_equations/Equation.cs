@@ -86,7 +86,14 @@ namespace Model
             get { return acceleration; }
         }
 
-
+        /// <summary>
+        /// Equation constructor
+        /// </summary>
+        /// <param name="speedInit">Initial velocity (m/s)</param>
+        /// <param name="angle">Angle (degree)</param>
+        /// <param name="g">Gravity (m/s²)</param>
+        /// <param name="h">Initial height (meter)</param>
+        /// <param name="weight">Mass of the object (Kg)</param>
         public Equation(float speedInit, float angle, float g, float h, float weight)
         {
             this.speedInit = speedInit;
@@ -139,38 +146,68 @@ namespace Model
                 " z(x)="+ Math.Round(-0.5 * g,2) +"*x²/"+Math.Round(Math.Pow(speedX,2),2)+"+"+ Math.Round(b,2) +"*x+"+ Math.Round(h,2);
         }
 
-        public float GetHeight(float x)
+       /// <summary>
+       /// Get the height given a position
+       /// </summary>
+       /// <param name="x">Position (meter)</param>
+       /// <returns></returns>
+       public float GetHeight(float x)
         {
             return (float)(a * Math.Pow(x, 2) + b * x + c);
         }
 
-
+        /// <summary>
+        /// Get the position given a time
+        /// </summary>
+        /// <param name="time">Time (seconds)</param>
+        /// <returns></returns>
         public Point GetPosition(float time)
         {
             return new Point( speedX * time, (float)(-0.5*g*time*time)+speedZ*time+h);
         }
 
+        /// <summary>
+        /// Get the speed given a time
+        /// </summary>
+        /// <param name="time">Time (seconds)</param>
+        /// <returns></returns>
         public Point GetSpeed(float time)
         {
             return new Point ( speedX, -g * time + speedZ );
         }
-
+        /// <summary>
+        /// Get the kinetic energy given a time
+        /// </summary>
+        /// <param name="time">Time (seconds)</param>
+        /// <returns></returns>
         public float GetKineticEnergy(float time)
         {
             Point speed = GetSpeed(time);
             return (float)(0.5 * weight * (Math.Pow(speed.X, 2) + Math.Pow(speed.Z, 2)));
         }
-
+        /// <summary>
+        /// Get the potetial energy given a time
+        /// </summary>
+        /// <param name="time">Time (seconds)</param>
+        /// <returns></returns>
         public float GetPotentialEnergy(float time)
         {
             return weight * g * GetPosition(time).Z;
         }
-
+        /// <summary>
+        /// Get the total energy (kinetic + potential) given a time
+        /// </summary>
+        /// <param name="time">Time (seconds)</param>
+        /// <returns></returns>
         public float GetTotalEnergy(float time)
         {
             return GetKineticEnergy(time) + GetPotentialEnergy(time);
         }
-
+        /// <summary>
+        /// Get the trajectory points (distance ; altitude)
+        /// </summary>
+        /// <param name="precision">Precision between two measures</param>
+        /// <returns></returns>
         public List<Point> GetPoints(float precision)
         {
             List<Point> points = new List<Point>();
@@ -186,7 +223,11 @@ namespace Model
             }
             return points;
         }
-
+        /// <summary>
+        /// Get speed point for the X-Axis (speed ; time)
+        /// </summary>
+        /// <param name="precision">Precision between two measures</param>
+        /// <returns></returns>
         public List<Point> GetPointsSpeedX(float precision)
         {
             List<Point> points = new List<Point>();
@@ -203,7 +244,11 @@ namespace Model
 
             return points;
         }
-
+        /// <summary>
+        /// Get speed points for the Z-Axis (speed ; time)
+        /// </summary>
+        /// <param name="precision">Precision between two measures</param>
+        /// <returns></returns>
         public List<Point> GetPointsSpeedZ(float precision)
         {
             List<Point> points = new List<Point>();
@@ -220,7 +265,11 @@ namespace Model
 
             return points;
         }
-
+        /// <summary>
+        /// Get acceleration points (acceleration ; time)
+        /// </summary>
+        /// <param name="precision">Precision between two measures</param>
+        /// <returns></returns>
         public List<Point> GetPointsAcceleration(float precision)
         {
             List<Point> points = new List<Point>();
@@ -237,7 +286,11 @@ namespace Model
 
             return points;
         }
-
+        /// <summary>
+        /// Get kinetic energy points (energy ; time) 
+        /// </summary>
+        /// <param name="precision">Precision between two measures</param>
+        /// <returns></returns>
         public List<Point> GetPointsKineticEnergy(float precision)
         {
             List<Point> points = new List<Point>();
@@ -254,7 +307,11 @@ namespace Model
 
             return points;
         }
-
+        /// <summary>
+        /// Get potential energy points (energy ; time) 
+        /// </summary>
+        /// <param name="precision">Precision between two measures</param>
+        /// <returns></returns>
         public List<Point> GetPointsPotentialEnergy(float precision)
         {
             List<Point> points = new List<Point>();
@@ -271,7 +328,11 @@ namespace Model
 
             return points;
         }
-
+        /// <summary>
+        /// Get total energy points (energy ; time) 
+        /// </summary>
+        /// <param name="precision">Precision between two measures</param>
+        /// <returns></returns>
         public List<Point> GetPointsTotalEnergy(float precision)
         {
             List<Point> points = new List<Point>();
@@ -288,7 +349,12 @@ namespace Model
 
             return points;
         }
-
+        /// <summary>
+        /// Get potential energy points (energy ; time)
+        /// Calculating using the two other energi lists
+        /// </summary>
+        /// <param name="precision">Precision between two measures</param>
+        /// <returns></returns>
         public List<Point> GetPointsTotalEnergy(float precision, List<Point> potentialEnergy, List<Point> kineticEnergy)
         {
             List<Point> points = new List<Point>();

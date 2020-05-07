@@ -16,3 +16,4 @@ D:\Data\Misc\Simulation_equation_chute_d_un_corps_graphic\Simulation_equations\S
 D:\Data\Misc\Simulation_equation_chute_d_un_corps_graphic\Simulation_equations\Simulation_equations\obj\Release\netcoreapp3.1\Simulation_equations.dll
 D:\Data\Misc\Simulation_equation_chute_d_un_corps_graphic\Simulation_equations\Simulation_equations\obj\Release\netcoreapp3.1\Simulation_equations.pdb
 D:\Data\Misc\Simulation_equation_chute_d_un_corps_graphic\Simulation_equations\Simulation_equations\obj\Release\netcoreapp3.1\Simulation_equations.genruntimeconfig.cache
+D:\Data\Misc\Simulation_equation_chute_d_un_corps_graphic\Simulation_equations\Simulation_equations\obj\Release\netcoreapp3.1\Simulation_equations.csprojAssemblyReference.cache
