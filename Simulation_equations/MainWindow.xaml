@@ -29,7 +29,7 @@
         <TextBlock HorizontalAlignment="Right" Margin="0,63,10,0" Text="Height (m)" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1" Grid.Row="2" Height="16" Width="58"/>
         <TextBlock HorizontalAlignment="Right" Margin="0,93,10,0" Text="Gravity (m/s²)" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1" Grid.Row="2" Height="16" Width="73"/>
         <TextBlock HorizontalAlignment="Right" Margin="0,121,10,0" Text="Weight (Kg)" TextWrapping="Wrap" VerticalAlignment="Top" Grid.Column="1" Grid.Row="2" Height="16" Width="63"/>
-        <Button x:Name="ButtonCalcul" Content="Calculer" HorizontalAlignment="Left" Margin="24,140,0,0" VerticalAlignment="Top" Width="100" Click="ButtonCalcul_Click_1" Grid.Column="3" Grid.Row="2" Height="20" />
+        <Button x:Name="ButtonCalcul" Content="Simulate" HorizontalAlignment="Left" Margin="10,99,0,0" VerticalAlignment="Top" Width="100" Click="ButtonCalcul_Click_1" Grid.Column="3" Grid.Row="2" Height="20" />
         <Canvas x:Name="CanvasMainGraph" Margin="10,7,10,10" Background="White" Grid.Column="2" Grid.RowSpan="2" Cursor="Cross" MouseDown="CanvasMainGraph_MouseDown">
             <Canvas Height="264" Width="350"/>
         </Canvas>
@@ -68,7 +68,7 @@
         </Border>
         <TextBlock x:Name="TextBlockEquationDesc" Grid.Column="3" Grid.Row="1" TextWrapping="Wrap" Background="White" Margin="0,10,0,10"/>
         <Border BorderThickness="0.5" BorderBrush="#7F000000" Grid.Column="3" Margin="0,10,0,10" Grid.Row="1"/>
-        <TextBlock x:Name="TextBoxCoordinates" Grid.Column="3" HorizontalAlignment="Center" Margin="0,31,0,0" Grid.Row="2" Text="Coordinates:" TextWrapping="Wrap" VerticalAlignment="Top" Width="145"/>
+        <TextBlock x:Name="TextBoxCoordinates" Grid.Column="3" HorizontalAlignment="Left" Margin="10,31,0,0" Grid.Row="2" Text="Coordinates:" TextWrapping="Wrap" VerticalAlignment="Top" Width="145"/>
 
     </Grid>
 </Window>

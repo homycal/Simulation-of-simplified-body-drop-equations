@@ -42,7 +42,6 @@ namespace Controller
             blackBrush.Color = Colors.Black;
             this.window = window;
         }
-
         public void PlotEquation(List<Canvas> canvas, Equation equation)
         {
             foreach (Canvas c in canvas)
@@ -150,6 +149,7 @@ namespace Controller
                 latest = point;
             }
             DrawMaxHeight(canvas, equation.MaxHeight, scaleX, scaleZ, redBrush);
+            DrawMaxLength(canvas, points[points.Count-1], scaleX, scaleZ, blueBrush);
         }
         public void DrawSpeedCanvas(Canvas canvas, float precision, Equation equation)
         {
@@ -580,7 +580,6 @@ namespace Controller
             canvas.Children.Add(pointerLineZ);
 
         }
-
         private void DrawMaxHeight(Canvas canvas, Model.Point point, float scaleX, float scaleZ, SolidColorBrush brush)
         {
             Line l = new Line();
@@ -604,8 +603,8 @@ namespace Controller
             l.Y2 = canvas.ActualHeight - CANVAS_PADDING - scaleZ * point.Z;
             DrawLine(canvas, l, brush);
             TextBlock grad = new TextBlock();
-            grad.Foreground = redBrush;
-            grad.Text = Math.Round(point.Z,2).ToString();
+            grad.Foreground = brush;
+            grad.Text = Math.Round(point.Z,2).ToString() + "m";
             grad.Margin = new Thickness(CANVAS_PADDING + 2*HALF_GRADUATION, canvas.ActualHeight - CANVAS_PADDING - 2*HALF_GRADUATION - scaleZ * point.Z, 0, 0);
             canvas.Children.Add(grad);
 
@@ -616,9 +615,23 @@ namespace Controller
             l.Y2 = canvas.ActualHeight - CANVAS_PADDING + HALF_GRADUATION;
             DrawLine(canvas, l, brush);
             grad = new TextBlock();
-            grad.Foreground = redBrush;
-            grad.Text = Math.Round(point.X, 2).ToString();
+            grad.Foreground = brush;
+            grad.Text = Math.Round(point.X, 2).ToString() + "m";
             grad.Margin = new Thickness(point.X*scaleX +CANVAS_PADDING - HALF_GRADUATION, canvas.ActualHeight - CANVAS_PADDING - 4*HALF_GRADUATION , 0, 0);
+            canvas.Children.Add(grad);
+        }
+        private void DrawMaxLength(Canvas canvas, Model.Point point, float scaleX, float scaleZ, SolidColorBrush brush)
+        {
+            Line l = new Line();
+            l.X1 = scaleX * point.X + CANVAS_PADDING;
+            l.Y1 = canvas.ActualHeight - CANVAS_PADDING - HALF_GRADUATION;
+            l.X2 = scaleX * point.X + CANVAS_PADDING;
+            l.Y2 = canvas.ActualHeight - CANVAS_PADDING + HALF_GRADUATION;
+            DrawLine(canvas, l, brush);
+            TextBlock grad = new TextBlock();
+            grad.Foreground = brush;
+            grad.Text = Math.Round(point.X, 2).ToString() + "m";
+            grad.Margin = new Thickness(point.X * scaleX + CANVAS_PADDING - 4*HALF_GRADUATION, canvas.ActualHeight -  CANVAS_PADDING + 4*HALF_GRADUATION, 0, 0);
             canvas.Children.Add(grad);
         }
     }
