@@ -10,6 +10,7 @@ using System.Windows;
 using System.ComponentModel.DataAnnotations;
 using System.Windows.Input.Manipulations;
 using System.Drawing;
+using System.Windows.Media.Converters;
 
 namespace Controller
 {
@@ -18,7 +19,7 @@ namespace Controller
         private const float CANVAS_PADDING = 40;
         private const float HALF_GRADUATION = 5;
         private const float MARGIN_SCALE = 30;
-        private const float PRECISION_FACTOR = 0.045f;
+        private const float PRECISION_FACTOR = 0.046f;
         SolidColorBrush redBrush;
         SolidColorBrush blueBrush;
         SolidColorBrush greenBrush;
@@ -48,6 +49,7 @@ namespace Controller
             {
                 c.Children.Clear();
             }
+            window.TextBoxCoordinates.Text = "Coordinates:\n(Click on the trajectory graph)";
             //MainCanvas
             float precisionDistance = (float)Math.Round(equation.ZeroHeight.X * PRECISION_FACTOR,3);
             float precisionTime =(float) Math.Round(equation.FlightTime * PRECISION_FACTOR,3);
@@ -143,10 +145,11 @@ namespace Controller
             {
                 if (latest != null)
                 {
-                    DrawMainLine(canvas, redBrush, latest, point, scaleX, scaleZ);
+                    DrawMainLine(canvas, blueBrush, latest, point, scaleX, scaleZ);
                 }
                 latest = point;
             }
+            DrawMaxHeight(canvas, equation.MaxHeight, scaleX, scaleZ, redBrush);
         }
         public void DrawSpeedCanvas(Canvas canvas, float precision, Equation equation)
         {
@@ -576,6 +579,47 @@ namespace Controller
             pointerLineZ.Y2 = point.Y;
             canvas.Children.Add(pointerLineZ);
 
+        }
+
+        private void DrawMaxHeight(Canvas canvas, Model.Point point, float scaleX, float scaleZ, SolidColorBrush brush)
+        {
+            Line l = new Line();
+            l.X1 = scaleX * point.X + CANVAS_PADDING/2;
+            l.Y1 = canvas.ActualHeight - CANVAS_PADDING - scaleZ * point.Z;
+            l.X2 = scaleX * point.X + 1.5*CANVAS_PADDING;
+            l.Y2 = canvas.ActualHeight - CANVAS_PADDING - scaleZ * point.Z;
+            DrawLine(canvas, l, brush);
+
+            l = new Line();
+            l.X1 = scaleX * point.X + CANVAS_PADDING;
+            l.Y1 = canvas.ActualHeight - 0.5*CANVAS_PADDING - scaleZ * point.Z;
+            l.X2 = scaleX * point.X + CANVAS_PADDING;
+            l.Y2 = canvas.ActualHeight - 1.5*CANVAS_PADDING - scaleZ * point.Z;
+            DrawLine(canvas, l, brush);
+
+            l = new Line();
+            l.X1 = CANVAS_PADDING - HALF_GRADUATION;
+            l.Y1 = canvas.ActualHeight - CANVAS_PADDING - scaleZ * point.Z;
+            l.X2 = CANVAS_PADDING + HALF_GRADUATION;
+            l.Y2 = canvas.ActualHeight - CANVAS_PADDING - scaleZ * point.Z;
+            DrawLine(canvas, l, brush);
+            TextBlock grad = new TextBlock();
+            grad.Foreground = redBrush;
+            grad.Text = Math.Round(point.Z,2).ToString();
+            grad.Margin = new Thickness(CANVAS_PADDING + 2*HALF_GRADUATION, canvas.ActualHeight - CANVAS_PADDING - 2*HALF_GRADUATION - scaleZ * point.Z, 0, 0);
+            canvas.Children.Add(grad);
+
+            l = new Line();
+            l.X1 = scaleX * point.X + CANVAS_PADDING;
+            l.Y1 = canvas.ActualHeight - CANVAS_PADDING - HALF_GRADUATION;
+            l.X2 = scaleX * point.X + CANVAS_PADDING;
+            l.Y2 = canvas.ActualHeight - CANVAS_PADDING + HALF_GRADUATION;
+            DrawLine(canvas, l, brush);
+            grad = new TextBlock();
+            grad.Foreground = redBrush;
+            grad.Text = Math.Round(point.X, 2).ToString();
+            grad.Margin = new Thickness(point.X*scaleX +CANVAS_PADDING - HALF_GRADUATION, canvas.ActualHeight - CANVAS_PADDING - 4*HALF_GRADUATION , 0, 0);
+            canvas.Children.Add(grad);
         }
     }
 }
