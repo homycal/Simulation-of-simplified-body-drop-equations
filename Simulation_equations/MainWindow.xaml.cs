@@ -38,6 +38,9 @@ namespace View
             canvas.Add(CanvasSpeed);
             canvas.Add(CanvasAcceleration);
             canvas.Add(CanvasEnergy);
+            SolidColorBrush redBrush = new SolidColorBrush();
+            redBrush.Color = Colors.Red;
+            TextBlockError.Foreground = redBrush;
         }
 
         private void ButtonCalcul_Click_1(object sender, RoutedEventArgs e)
@@ -48,15 +51,24 @@ namespace View
 
         private void GetValues()
         {
-            textSpeed = float.Parse(TextBoxSpeed.Text);
-            textAngle = float.Parse(TextBoxAngle.Text);
-            textHeight = float.Parse(TextBoxHeight.Text);
-            textGravity = float.Parse(TextBoxGravity.Text);
-            textWeight = float.Parse(TextBoxWeight.Text);
-            //TODO: Check errors if a letter is entered
-            equation = new Equation(textSpeed, textAngle, textGravity, textHeight, textWeight);
-            controller.PlotEquation(canvas, equation);
-            TextBlockEquationDesc.Text = equation.ToString();
+            try
+            {
+                textSpeed = float.Parse(TextBoxSpeed.Text);
+                textAngle = float.Parse(TextBoxAngle.Text);
+                textHeight = float.Parse(TextBoxHeight.Text);
+                textGravity = float.Parse(TextBoxGravity.Text);
+                textWeight = float.Parse(TextBoxWeight.Text);
+                equation = new Equation(textSpeed, textAngle, textGravity, textHeight, textWeight);
+                controller.PlotEquation(canvas, equation);
+                TextBlockEquationDesc.Text = equation.ToString();
+                TextBlockError.Text = "";
+            }
+            catch(Exception e)
+            {
+                TextBlockError.Text = e.Message;
+
+            }
+
 
         }
         private void SliderSpeed_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
